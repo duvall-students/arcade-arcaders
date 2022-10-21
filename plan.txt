@@ -1,0 +1,50 @@
+
+Breaking up GameState class
+  KeepLines 21-28 exclude powerup list
+constructor
+Lines 34-37
+Moveleft & moveright
+Moveable objects will handle specificities of moving
+Step 
+Abstract method overwritten by BreakoutGameState & GalagaGameState
+getRoot
+gameLost
+beatLevel
+isWon
+Remove/Relocate to BreakoutGameState
+makeBricks
+Turn into make enemy/destroyable object
+Make into method to keep in gamestate
+bounceOffBricks
+bounceOffPaddle
+checkForPowerups
+checkBallIsOut
+checkForBalls
+increasePaddle
+addBall
+generatePowerUp
+CHECK OUT GAME ELEMENT CLASS
+Possible children of game element class
+Projectile
+Ball
+Bullet
+Target
+Brick
+Unbreakable brick
+Alien
+PlayerMover
+Paddle
+Spaceship
+GameOverMessage
+PowerUp
+IncreasePaddleLength
+AddBallPowerUp
+LifeCounter
+ScoreCard
+ScoreManager
+Level System
+Level1, Level2, Level3 (Currently shaped for Breakout)
+Currently extend GameState
+Combine into one BreakoutLevel class with a hashmap of data
+BreakoutGameState
+GalagaGameState
