@@ -1,4 +1,5 @@
 ﻿Arcade Project Design Notes: 
+    ETHANS STUFF
     • Breaking up GameState class 
         ◦ Keep 
             ▪ Lines 21-28 exclude powerup list 
