@@ -27,6 +27,8 @@
         ◦ BreakoutGameState 
         ◦ GalagaGameState 
     • CHECK OUT GAME ELEMENT CLASS 
+    
+        COLLIN STUFF
         ◦ Possible children of game element class 
             ▪ Projectile 
                 • Ball 
