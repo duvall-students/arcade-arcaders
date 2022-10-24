@@ -1,4 +1,4 @@
-package breakout2;
+//package breakout2;
 
 import javafx.scene.image.Image;
 
