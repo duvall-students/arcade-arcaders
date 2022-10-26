@@ -15,6 +15,6 @@ public class Target extends GameElement{
 		return null;
 	}
 	
-
+ 
 }
  

@@ -6,7 +6,7 @@ public class Alien extends Target{
 	private final int alienHeight = 0;
 	private int alienWidth = 0;
 	private Rectangle alienRectangle;
-	 
+	  
 	//potentially add in a movement pattern class in here, but it probably would go somewhere like Galaga gamestate 
 
 }

@@ -15,7 +15,7 @@ public class Projectile extends GameElement{
 	    public Node getNode() {
 	    	return this.circle;
 	    }
-	  
+	   
 	public void move (double elapsedTime) {
         circle.setCenterX(circle.getCenterX() + myVelocity.getX() * elapsedTime);
         circle.setCenterY(circle.getCenterY() + myVelocity.getY() * elapsedTime);

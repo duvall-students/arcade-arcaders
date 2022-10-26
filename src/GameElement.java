@@ -13,7 +13,7 @@ public abstract class GameElement {
 	    Random random = new Random();
 	    return random.nextInt(max - min) + min;
 	}
-	
+	 
 	public abstract Bounds getBounds();
  
 }

@@ -29,7 +29,7 @@ public class Paddle extends PlayerMover{
 		this.userPaddle = new Rectangle(paddleXPosition, paddleYPosition, paddleWidth, paddleHeight);
 		this.userPaddle.setFill(paddleColor);
 	}
-	 
+	  
 	public void increaseX() {
 		this.userPaddle.setWidth(userPaddle.getWidth() + paddleSizeIncrement);
 		this.paddleWidth += paddleSizeIncrement;

@@ -5,7 +5,7 @@ public class Bullet extends Projectile{
 	private final int bullet_speed = 50;
 
 	
-	
+	 
 	
 	    
 	

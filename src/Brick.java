@@ -28,7 +28,7 @@ public class Brick extends Target{
 	public Brick(int brickXCoordinate, int brickYCoordinate, String brickImagePath) {
 		brickRectangle = new Rectangle(brickXCoordinate, brickYCoordinate, brickWidth, brickHeight);
 		brickRectangle.setFill(brickColor);
-	 	
+	  	
         try {
 	        Image image = new Image(new FileInputStream(brickImagePath));
 	        brickView = new ImageView(image);

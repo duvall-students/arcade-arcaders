@@ -27,7 +27,7 @@ public class Ball extends Projectile{
     }
      
 
-    
+     
     //moved into projectile
 //    public void move (double elapsedTime) {
 //        circle.setCenterX(circle.getCenterX() + myVelocity.getX() * elapsedTime);

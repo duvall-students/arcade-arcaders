@@ -30,7 +30,7 @@ public class PlayerMover extends GameElement{
 		moverXPosition = (int) Math.min(this.userPlayerMover.getX() + moverSpeed, screenWidth - moverWidth);
 	}
 	
-	 
+	  
 	
 	public Bounds getBounds() {
 		return userPlayerMover.getBoundsInParent();
