@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
-public class Brick extends GameElement{
+public class Brick extends Target{
 
 	//Setting variable values for now these are just place holders
 	//will change when we find better values

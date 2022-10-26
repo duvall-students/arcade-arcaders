@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
 import java.lang.Math;
 
 
-public class Ball extends GameElement{
+public class Ball extends Projectile{
     private final int BOUNCER_SIZE = 10;
 
     private Random dice = new Random();
@@ -26,10 +26,12 @@ public class Ball extends GameElement{
         circle.setCenterY(screenHeight/2-xOffSet);
     }
 
-    public void move (double elapsedTime) {
-        circle.setCenterX(circle.getCenterX() + myVelocity.getX() * elapsedTime);
-        circle.setCenterY(circle.getCenterY() + myVelocity.getY() * elapsedTime);
-    }
+    
+    //moved into projectile
+//    public void move (double elapsedTime) {
+//        circle.setCenterX(circle.getCenterX() + myVelocity.getX() * elapsedTime);
+//        circle.setCenterY(circle.getCenterY() + myVelocity.getY() * elapsedTime);
+//    }
 
     
     //ball no longer bounces off floor
@@ -74,13 +76,14 @@ public class Ball extends GameElement{
 		}
     }
     
-    public Bounds getBounds() {
-    	return this.circle.getBoundsInParent();
-    }
+//    public Bounds getBounds() {
+//    	return this.circle.getBoundsInParent();
+//    }
+//    
+//    public Node getNode() {
+//    	return this.circle;
+//    }
     
-    public Node getNode() {
-    	return this.circle;
-    }
     
     private Point2D normalizeVelocity(Point2D velocity) {
     	double unitXVelocity = velocity.getX() / Math.sqrt(velocity.getX() * velocity.getX() + velocity.getY() * velocity.getY());

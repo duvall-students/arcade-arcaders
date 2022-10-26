@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
-public class Paddle extends GameElement{
+public class Paddle extends PlayerMover{
 
 	//Setting variable values for now these are just place holders
 	//will change when we find better values
@@ -30,56 +30,12 @@ public class Paddle extends GameElement{
 		this.userPaddle.setFill(paddleColor);
 	}
 	
-	public void moveLeft() {
-		userPaddle.setX(Math.max(this.userPaddle.getX() - paddleSpeed, 0));
-		paddleXPosition = (int) Math.max(this.userPaddle.getX() - paddleSpeed, 0);
-	}
-	
-	public void moveRight() {
-		userPaddle.setX(Math.min(this.userPaddle.getX() + paddleSpeed, screenWidth - paddleWidth));
-		paddleXPosition = (int) Math.min(this.userPaddle.getX() + paddleSpeed, screenWidth - paddleWidth);
-	}
-	
 	public void increaseX() {
 		this.userPaddle.setWidth(userPaddle.getWidth() + paddleSizeIncrement);
 		this.paddleWidth += paddleSizeIncrement;
 	}
 	
-	public Bounds getBounds() {
-		return userPaddle.getBoundsInParent();
-	}
 
-	public Node getNode() {
-		return this.userPaddle;
-	}
-
-	public int getX() {
-		return paddleXPosition;	
-	}
-	
-	public int getY() {
-		return paddleYPosition;	
-	}
-	
-	public int getPaddleWidth() {
-		return paddleWidth;	
-	}
-	
-	public int getPaddleSpeed() {
-		return paddleSpeed;
-	}
-	
-//	public void moveLeftEdge() {
-//		paddleXPosition = 0;
-//		userPaddle.setX(0);
-//		System.out.println("Hit the edge");
-//	}
-	
-//	public void moveRightEdge(int screenWidth) {
-//		paddleXPosition = screenWidth-paddleWidth;
-//		userPaddle.setX(screenWidth-paddleWidth);
-//		System.out.println("Hit the edge");
-//	}
 
 
 	
