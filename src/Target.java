@@ -14,5 +14,7 @@ public class Target extends GameElement{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
 }
+ 

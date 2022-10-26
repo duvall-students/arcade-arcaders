@@ -25,6 +25,7 @@ public class Ball extends Projectile{
         circle.setCenterX(screenWidth/2);
         circle.setCenterY(screenHeight/2-xOffSet);
     }
+     
 
     
     //moved into projectile

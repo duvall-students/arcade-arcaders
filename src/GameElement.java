@@ -15,5 +15,5 @@ public abstract class GameElement {
 	}
 	
 	public abstract Bounds getBounds();
-
+ 
 }
