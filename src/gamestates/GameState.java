@@ -1,9 +1,13 @@
+package gamestates;
 //package breakout2;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import GameElement;
+import LifeCounter;
+import ScoreCard;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
@@ -12,19 +16,30 @@ import javafx.scene.Node;
 public abstract class GameState {
 	
 	public List<GameElement> gameElements;
-	private int screenWidth;
-	private int screenHeight;
-	private Group root;
-	private LifeCounter livesLeft;
-	private ScoreCard score;
-	private boolean gameLost;
+	
+	protected List<Target> gameTargets;
+	protected List<Projectile> gameProjectiles;
+	protected Mover playerMover;
+	protected List<PowerUp> gamePowerUps;
+	protected Group root;
+
+	
+	protected int screenWidth;
+	protected int screenHeight;
+	protected LifeCounter livesLeft;
+	protected ScoreCard score;
+	protected boolean gameLost;
 	
 	public GameState(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
-		
 		this.root = new Group();
-		spawnGameItems();
+		this.gameTargets = new List<Target>();
+		this.gameProjectiles = new List<Projectile>();
+		this.playerMover = spawnPlayerMover();
+		
+		spawnGameTargets();
+		spawnGameProjectiles();
 		
 		this.score = new ScoreCard(screenWidth, screenHeight);
 		root.getChildren().add(score.getNode());
@@ -36,47 +51,35 @@ public abstract class GameState {
 		
 	}
 	
-	//Empty method that is inherited and overridden by children classes for creating game items
-	public abstract void spawnGameItems
+	//Changing to be more general for gamestates
+	public void step(double elapsedTime) {
+		makeGameStep(elapsedTime);
+	}
 	
-	//This method WILL SOON BE CHANGED TO SPAWN TARGET CHARACTERS REGARDLESS OF GAMESTATE
-	public void makeBricks(int numberOfBrickRows, int oddsOfBrick, int oddsOfUnbreakableBrick) {
-		//creating the bricks 
-		Random randomVal = new Random();
-		for(int x = 1; x<=numberOfBrickRows;x++) {
-			for(int i = 0; i < bricksPerRow; i ++) {
-				if (randomVal.nextInt(maxBrickOdds) < oddsOfBrick) {
-					Brick brickCreated = new Brick(i*brickWidth, brickHeight*x, "resources/brick6.gif" );
-					bricks.add(brickCreated);
-					root.getChildren().add(brickCreated.getNode());
-				}
-				else if (randomVal.nextInt(maxUnbreakableBrickOdds) < oddsOfUnbreakableBrick ) {
-					System.out.println(randomVal.nextInt(maxUnbreakableBrickOdds));
-					UnbreakableBrick brickCreated = new UnbreakableBrick(i*brickWidth, brickHeight*x, "resources/brick3.gif" );
-					bricks.add(brickCreated);
-					root.getChildren().add(brickCreated.getNode());
-				}
-				//add another if statement to add in unbreakable bricks
-			}
-		}
+	//Empty method that is inherited and overridden by children classes for creating game items
+	public void spawnGameTargets() {	
+	}
+	
+	//Empty method that is inherited and overridden by children classes for creating game items
+	public void spawnGameProjectiles() {	
+	}
+	
+	//Empty method that is inherited and overridden by children classes for creating game items
+	public PlayerMover spawnPlayerMover() {	
+	}
+	
+	//Empty method that is inherited and overridden by children classes for creating game items
+	public void makeGameStep(double elapsedTime) {
 	}
 	
 	//THESE TWO MOVEMENT FUNCTIONS WILL BE CHANGED TO BE GENERAL FOR THE MOVER CLASS
 	public void moveLeft() {
-		this.paddle.moveLeft();
+		this.userMover.moveLeft();
 	}
 	
 	public void moveRight() {
-		this.paddle.moveRight();
+		this.userMover.moveRight();
 	}
-	
-	//Changing to be more general for gamestates
-	public void step(double elapsedTime) {
-		makeGameChecks();
-	}
-	
-	//Method that is inherited and overridden in child classes to make frame checks for objects
-	public abstract void makeGameChecks
 	
 	public Group getRoot() {
 		return this.root;
@@ -86,16 +89,10 @@ public abstract class GameState {
 	public boolean gameLost() {
 		return this.gameLost;
 	}
-	
-	//Short method to check if the player beat the level by seeing if all bricks are gone
-	public boolean checkBeatLevel() {
-		return (bricks.size()==0);
-	}
-	
 
-	//Will soon be changed to if the number of targets = 0
+	//Checks to see if number of targets = 0 to see if player won this level
 	public boolean isWon() {
-		return this.bricks.size() == 0;
+		return this.gameTargets.size() == 0;
 	}
 	
 	

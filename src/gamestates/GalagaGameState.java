@@ -12,8 +12,23 @@ public class GalagaGameState extends GameState{
 	//The rest of the class is fairly empty and will be soon implemented once we have arcade structure properly set up
 	//Method that spawns in game items which will override the parent method
 	@Override
-	public void spawnGameItems() {
+	public void spawnGameTargets() {
 
+	}
+	
+	@Override
+	public void spawnGameProjectiles() {
+		
+	}
+	
+	@Override
+	public PlayerMover spawnPlayerMover() {
+		
+	}
+	
+	//Make step method that is called every frame
+	public void makeGameStep(double elapsedTime) {
+		
 	}
 
 	//Inherited from GameState and makes basic frame checks for the brickbreaker game
