@@ -1,13 +1,11 @@
 package gamestates;
 //package breakout2;
 
+import gameElements.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import GameElement;
-import LifeCounter;
-import ScoreCard;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
@@ -19,7 +17,7 @@ public abstract class GameState {
 	
 	protected List<Target> gameTargets;
 	protected List<Projectile> gameProjectiles;
-	protected Mover playerMover;
+	protected PlayerMover playerMover;
 	protected List<PowerUp> gamePowerUps;
 	protected Group root;
 
@@ -34,11 +32,10 @@ public abstract class GameState {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		this.root = new Group();
-		this.gameTargets = new List<Target>();
-		this.gameProjectiles = new List<Projectile>();
+		this.gameTargets = new ArrayList<Target>();
+		this.gameProjectiles = new ArrayList<Projectile>();
 		this.playerMover = spawnPlayerMover();
 		
-		spawnGameTargets();
 		spawnGameProjectiles();
 		
 		this.score = new ScoreCard(screenWidth, screenHeight);
@@ -48,7 +45,6 @@ public abstract class GameState {
 		
 		this.gameLost = false;
 		
-		
 	}
 	
 	//Changing to be more general for gamestates
@@ -57,28 +53,24 @@ public abstract class GameState {
 	}
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
-	public void spawnGameTargets() {	
-	}
+	public abstract void spawnGameTargets(int numberOfBrickRows, int maxBrickOdds, int oddsOfUnbreakableBrick);
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
-	public void spawnGameProjectiles() {	
-	}
+	public abstract void spawnGameProjectiles();
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
-	public PlayerMover spawnPlayerMover() {	
-	}
+	public abstract PlayerMover spawnPlayerMover();
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
-	public void makeGameStep(double elapsedTime) {
-	}
+	public abstract void makeGameStep(double elapsedTime);
 	
 	//THESE TWO MOVEMENT FUNCTIONS WILL BE CHANGED TO BE GENERAL FOR THE MOVER CLASS
 	public void moveLeft() {
-		this.userMover.moveLeft();
+		this.playerMover.moveLeft();
 	}
 	
 	public void moveRight() {
-		this.userMover.moveRight();
+		this.playerMover.moveRight();
 	}
 	
 	public Group getRoot() {
@@ -94,7 +86,8 @@ public abstract class GameState {
 	public boolean isWon() {
 		return this.gameTargets.size() == 0;
 	}
-	
+
+	public abstract void makeGameChecks();	
 	
 	
 }

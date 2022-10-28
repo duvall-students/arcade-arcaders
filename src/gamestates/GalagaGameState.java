@@ -1,5 +1,7 @@
 package gamestates;
 
+
+import gameElements.*;
 //Created by Ethan Jeffries
 //This class is a child class of GameState and will handle anything that is specific to the Galaga game
 
@@ -12,7 +14,7 @@ public class GalagaGameState extends GameState{
 	//The rest of the class is fairly empty and will be soon implemented once we have arcade structure properly set up
 	//Method that spawns in game items which will override the parent method
 	@Override
-	public void spawnGameTargets() {
+	public void spawnGameTargets(int numberOfBrickRows, int maxBrickOdds, int oddsOfUnbreakableBrick) {
 
 	}
 	
@@ -23,7 +25,7 @@ public class GalagaGameState extends GameState{
 	
 	@Override
 	public PlayerMover spawnPlayerMover() {
-		
+		return null;
 	}
 	
 	//Make step method that is called every frame

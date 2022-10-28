@@ -1,3 +1,4 @@
+package gameElements;
 //package breakout2;
 
 import javafx.geometry.Bounds;
