@@ -1,5 +1,7 @@
+package gameElements;
 //package breakout2;
 
+import backendStuff.ScoreManager;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.text.Text;

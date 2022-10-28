@@ -1,5 +1,8 @@
+package gameElements;
 //package breakout2;
 
+import gamestates.BrickBreakerGameState;
+import gamestates.GameState;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -12,9 +15,9 @@ public abstract class PowerUp extends GameElement{
 	
 	private final int size = 20;
 	private ImageView powerUpView;
-	protected GameState gameState;
+	protected BrickBreakerGameState gameState;
 	
-	protected PowerUp(String powerUpImagePath, int screenWidth, int screenHeight, GameState gameState) {
+	protected PowerUp(String powerUpImagePath, int screenWidth, int screenHeight, BrickBreakerGameState gameState) {
 		
 		this.gameState = gameState;
 		
