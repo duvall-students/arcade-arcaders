@@ -24,11 +24,6 @@ public class BrickBreakerGameState extends GameState{
 	private final int maxUnbreakableBrickOdds = 100;
 	private final int bricksPerRow = 8;
 	
-	//Imported from level system for now
-	private int oddsOfBrick = 70;
-	private int oddsOfUnbreakableBrick = 10;
-	private int numberOfBrickRows = 3;
-	
 	private final int oddsToGeneratePowerUp = 1001;
 	private int currentStep = 0;
 	
