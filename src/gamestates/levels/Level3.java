@@ -1,6 +1,9 @@
+package gamestates.levels;
 //package breakout2;
 
-public class Level3 extends GameState {
+import gamestates.BrickBreakerGameState;
+
+public class Level3 extends BrickBreakerGameState {
 	
 	private int oddsOfBrick = 85;
 	private int oddsOfUnbreakableBrick = 20;
@@ -9,6 +12,5 @@ public class Level3 extends GameState {
 
 	public Level3(int screenWidth, int screenHeight) {
 		super(screenWidth,screenHeight);
-		makeBricks(numberOfBrickRows,oddsOfBrick,oddsOfUnbreakableBrick);
-	}
+		spawnGameTargets(numberOfBrickRows,oddsOfBrick,oddsOfUnbreakableBrick);	}
 }
