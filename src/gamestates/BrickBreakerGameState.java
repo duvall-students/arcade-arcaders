@@ -3,19 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import AddBallPowerUp;
-import Ball;
-import Brick;
-import GameOverMessage;
-import IncreasePaddleLength;
-import Paddle;
-import PowerUp;
-import UnbreakableBrick;
-
+import gameElements.*;
 //Created by Ethan Jeffries
 //Breaking apart original GameState class into children class of BreakoutGameState
 
-public class BrickBreakerGameState extends GameState{
+public abstract class BrickBreakerGameState extends GameState{
 
 	//These variables may be moved to level classes
 	private final int brickWidth = 50;
@@ -23,6 +15,9 @@ public class BrickBreakerGameState extends GameState{
 	private final int maxBrickOdds = 100;
 	private final int maxUnbreakableBrickOdds = 100;
 	private final int bricksPerRow = 8;
+	private int numberOfBrickRows;
+	private int oddsOfBrick;
+	private int oddsOfUnbreakableBrick;
 	
 	private final int oddsToGeneratePowerUp = 1001;
 	private int currentStep = 0;
@@ -43,7 +38,7 @@ public class BrickBreakerGameState extends GameState{
 	}
 	
 	@Override
-	public void spawnGameTargets() {
+	public void spawnGameTargets(int numberOfBrickRows, int maxBrickOdds, int oddsOfUnbreakableBrick) {
 		//creating the bricks 
 		Random randomVal = new Random();
 		for(int x = 1; x<=numberOfBrickRows;x++) {
@@ -87,9 +82,9 @@ public class BrickBreakerGameState extends GameState{
 	
 	//Possibly restructure to allow for a uniform look in handleBallMovement
 	public void bounceOffBricks() {
-		for(Ball currentBall: gameProjectiles) {
+		for(Projectile currentBall: gameProjectiles) {
 			for(int i = 0; i < gameTargets.size(); i ++) {
-				Brick currentBrick = gameTargets.get(i);
+				Brick currentBrick = (Brick) gameTargets.get(i);
 				boolean intersects = currentBall.getBounds().intersects(currentBrick.getBounds());
 				if(intersects) {
 					currentBall.bounce(currentBrick);
@@ -110,7 +105,7 @@ public class BrickBreakerGameState extends GameState{
 
 	public void checkForPowerUps() {
 		for(int j = 0; j < gameProjectiles.size(); ++j) {
-			Ball currentBall = gameProjectiles.get(j);
+			Ball currentBall = (Ball) gameProjectiles.get(j);
 			for(int i = 0; i < gamePowerUps.size(); i ++) {
 				PowerUp currentPowerUp = gamePowerUps.get(i);
 				boolean intersects = currentBall.getBounds().intersects(currentPowerUp.getBounds());
@@ -126,7 +121,7 @@ public class BrickBreakerGameState extends GameState{
 	
 	public void checkBallIsOut() {
 		for (int i = 0; i < gameProjectiles.size(); i ++) {
-			Ball currentBall = gameProjectiles.get(i);
+			Ball currentBall = (Ball) gameProjectiles.get(i);
 			double ballY = currentBall.getBounds().getCenterY();
 			if (ballY>screenHeight){
 				gameProjectiles.remove(i);
@@ -150,7 +145,8 @@ public class BrickBreakerGameState extends GameState{
 
 	//May move to paddle class
 	public void increasePaddleSize() {
-		this.paddle.increaseX();
+		Paddle p = (Paddle) this.playerMover;
+		p.increaseX();
 	}
 	
 	//Possibly move to spawnGameProjectiles method?
@@ -162,7 +158,7 @@ public class BrickBreakerGameState extends GameState{
 	
 	public void generatePowerUp() {
 		if (++ currentStep % oddsToGeneratePowerUp == 1) {
-			int rand = userMover.getRandomInRange(0, 100);
+			int rand = playerMover.getRandomInRange(0, 100);
 			if (rand < 15) {
 				AddBallPowerUp powerUpToAdd = new AddBallPowerUp(screenWidth, screenHeight, this);
 				root.getChildren().add(powerUpToAdd.getNode());
@@ -173,5 +169,11 @@ public class BrickBreakerGameState extends GameState{
 				gamePowerUps.add(powerUpToAdd);
 			}
 		}
+	}
+
+	@Override
+	public void makeGameChecks() {
+		// TODO Auto-generated method stub
+		
 	}
 }

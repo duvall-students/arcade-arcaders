@@ -1,3 +1,4 @@
+package gameElements;
 //package breakout2;
 
 import java.util.Random;
@@ -36,7 +37,8 @@ public class Ball extends Projectile{
 
     
     //ball no longer bounces off floor
-    public void bounceOffWall (double screenWidth, double screenHeight) {
+    @Override
+    public void bounceOffWall (int screenWidth, int screenHeight) {
         if (circle.getCenterX() - BOUNCER_SIZE < 0) {
             myVelocity = new Point2D(Math.abs(myVelocity.getX()) * this.getRandomInRange(80, 120) /100.0, myVelocity.getY() * this.getRandomInRange(80, 120) /100.0);
         } else if (circle.getCenterX() > screenWidth - BOUNCER_SIZE) {
@@ -64,15 +66,16 @@ public class Ball extends Projectile{
 //    	myVelocity = new Point2D(-1 * myVelocity.getX(), myVelocity.getY());
 //    }
     
-    public void bouncePaddle(Paddle p) {
-    	boolean intersects = this.getBounds().intersects(p.getBounds());
+    @Override
+    public void bouncePaddle(PlayerMover playerMover) {
+    	boolean intersects = this.getBounds().intersects(playerMover.getBounds());
 		double ballX = this.getBounds().getCenterX();
 		double ballY = this.getBounds().getCenterY();
-		double paddleMiddleX = p.getBounds().getCenterX();
-		if (intersects && ballX < paddleMiddleX && ballY < p.getBounds().getMaxY()) {
+		double paddleMiddleX = playerMover.getBounds().getCenterX();
+		if (intersects && ballX < paddleMiddleX && ballY < playerMover.getBounds().getMaxY()) {
 			myVelocity = new Point2D(-1 * Math.abs(myVelocity.getX()), -1 * myVelocity.getY());
 		}
-		else if (intersects && ballX >= paddleMiddleX && ballY < p.getBounds().getMaxY()) {
+		else if (intersects && ballX >= paddleMiddleX && ballY < playerMover.getBounds().getMaxY()) {
 			myVelocity = new Point2D(Math.abs(myVelocity.getX()), -1 * myVelocity.getY());
 		}
     }
@@ -91,6 +94,5 @@ public class Ball extends Projectile{
     	double unitYVelocity = velocity.getY() / Math.sqrt(velocity.getX() * velocity.getX() + velocity.getY() * velocity.getY());
     	return new Point2D(unitXVelocity, unitYVelocity);
     }
-
 
 }
