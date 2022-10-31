@@ -21,7 +21,6 @@ public abstract class GameState {
 	protected List<PowerUp> gamePowerUps;
 	protected Group root;
 
-	
 	protected int screenWidth;
 	protected int screenHeight;
 	protected LifeCounter livesLeft;
@@ -53,7 +52,7 @@ public abstract class GameState {
 	}
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
-	public abstract void spawnGameTargets(int numberOfBrickRows, int maxBrickOdds, int oddsOfUnbreakableBrick);
+	public abstract void spawnGameTargets();
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
 	public abstract void spawnGameProjectiles();
