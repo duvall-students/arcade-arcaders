@@ -2,8 +2,8 @@ package gamestates;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import gameElements.*;
+
 //Created by Ethan Jeffries
 //Breaking apart original GameState class into children class of BreakoutGameState
 
@@ -12,12 +12,9 @@ public abstract class BrickBreakerGameState extends GameState{
 	//These variables may be moved to level classes
 	private final int brickWidth = 50;
 	private final int brickHeight = 15;
-	private final int maxBrickOdds = 100;
 	private final int maxUnbreakableBrickOdds = 100;
 	private final int bricksPerRow = 8;
-	private int numberOfBrickRows;
 	private int oddsOfBrick;
-	private int oddsOfUnbreakableBrick;
 	
 	private final int oddsToGeneratePowerUp = 1001;
 	private int currentStep = 0;
@@ -25,6 +22,8 @@ public abstract class BrickBreakerGameState extends GameState{
 	//Constructor that calls super constructor then adds in brickbreaker elements
 	public BrickBreakerGameState(int screenWidth, int screenHeight) {
 		super(screenWidth, screenHeight);	
+		spawnPlayerMover();
+		spawnGameProjectiles();
 	}
 	
 	//Inherited from GameState and makes basic frame checks for the brickbreaker game
@@ -64,10 +63,9 @@ public abstract class BrickBreakerGameState extends GameState{
 	}
 	
 	@Override
-	public PlayerMover spawnPlayerMover() {
-		Paddle userPaddle = new Paddle(screenWidth, screenHeight);
-		root.getChildren().add(userPaddle.getNode());
-		return userPaddle;
+	public void spawnPlayerMover() {
+		playerMover = new Paddle(screenWidth, screenHeight);
+		root.getChildren().add(playerMover.getNode());
 	}
 	
 	public void handleBallMovement(double elapsedTime) {
@@ -153,6 +151,8 @@ public abstract class BrickBreakerGameState extends GameState{
 	public void addBall() {
 		Ball newBall = new Ball(screenWidth, screenHeight);
 		gameProjectiles.add(newBall);
+		System.out.println("addBall1");
+		//ISSUE HERE
 		root.getChildren().add(newBall.getNode());
 	}
 	
@@ -171,9 +171,4 @@ public abstract class BrickBreakerGameState extends GameState{
 		}
 	}
 
-	@Override
-	public void makeGameChecks() {
-		// TODO Auto-generated method stub
-		
-	}
 }
