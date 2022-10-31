@@ -35,8 +35,9 @@ public class Brick extends Target{
 	        brickView = new ImageView(image);
 	        
         } catch (FileNotFoundException e) {}
-        
+        System.out.println("Brick constructor");
         brickView.setFitWidth(brickWidth);
+        System.out.println("Brick constructor2");
         brickView.setFitHeight(brickHeight);
         brickView.setX(brickXCoordinate);
         brickView.setY(brickYCoordinate);
