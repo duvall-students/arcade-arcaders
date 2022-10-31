@@ -24,7 +24,7 @@ public class Brick extends Target{
 	private Rectangle brickRectangle;
 	private String brickPath = "resources/brick6.gif";
 	private ImageView brickView;
-		
+		 
 		//Constructor
 	public Brick(int brickXCoordinate, int brickYCoordinate, String brickImagePath) {
 		brickRectangle = new Rectangle(brickXCoordinate, brickYCoordinate, brickWidth, brickHeight);
@@ -35,9 +35,7 @@ public class Brick extends Target{
 	        brickView = new ImageView(image);
 	        
         } catch (FileNotFoundException e) {}
-        System.out.println("Brick constructor");
         brickView.setFitWidth(brickWidth);
-        System.out.println("Brick constructor2");
         brickView.setFitHeight(brickHeight);
         brickView.setX(brickXCoordinate);
         brickView.setY(brickYCoordinate);
