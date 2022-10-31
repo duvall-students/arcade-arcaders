@@ -1,4 +1,3 @@
-
 package gameElements;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
