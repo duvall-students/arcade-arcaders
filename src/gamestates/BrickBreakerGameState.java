@@ -9,19 +9,20 @@ import gameElements.*;
 
 public abstract class BrickBreakerGameState extends GameState{
 
-	//These variables may be moved to level classes
-	private final int brickWidth = 50;
-	private final int brickHeight = 15;
-	private final int maxUnbreakableBrickOdds = 100;
-	private final int bricksPerRow = 8;
-	private int maxOddsOfBrick = 100;
-	
+	private final int maxOddsOfBrick = 100;
+	protected final int numberOfBrickRows;
+	protected final int brickOdds;
+	protected final int oddsOfUnbreakableBrick;
 	private final int oddsToGeneratePowerUp = 1001;
 	private int currentStep = 0;
-	 
+	
 	//Constructor that calls super constructor then adds in brickbreaker elements
-	public BrickBreakerGameState(int screenWidth, int screenHeight) {
+	public BrickBreakerGameState(int screenWidth, int screenHeight, int numberOfBrickRows, int brickOdds, int oddsOfUnbreakableBrick) {
 		super(screenWidth, screenHeight);	
+		this.numberOfBrickRows = numberOfBrickRows;
+		this.brickOdds = brickOdds;
+		this.oddsOfUnbreakableBrick = oddsOfUnbreakableBrick;
+		spawnGameTargets();
 		spawnPlayerMover();
 		spawnGameProjectiles();
 	}
@@ -38,18 +39,22 @@ public abstract class BrickBreakerGameState extends GameState{
 	}
 	
 	@Override
+	public void spawnGameTargets() {
+		this.spawnGameTargets(this.numberOfBrickRows, this.brickOdds, this.oddsOfUnbreakableBrick);
+	}
+	
 	public void spawnGameTargets(int numberOfBrickRows, int brickOdds, int oddsOfUnbreakableBrick) {
 		//creating the bricks 
 		Random randomVal = new Random();
 		for(int x = 1; x<=numberOfBrickRows;x++) {
-			for(int i = 0; i < bricksPerRow; i ++) {
+			for(int i = 0; i < this.screenWidth / Brick.brickWidth; i ++) {
 				if (randomVal.nextInt(maxOddsOfBrick) < brickOdds) {
-					Brick brickCreated = new Brick(i*brickWidth, brickHeight*x, "resources/brick6.gif" );
+					Brick brickCreated = new Brick(i*Brick.brickWidth, Brick.brickHeight*x, this);
 					gameTargets.add(brickCreated);
 					root.getChildren().add(brickCreated.getNode());
 				}
-				else if (randomVal.nextInt(maxUnbreakableBrickOdds) < oddsOfUnbreakableBrick ) {
-					UnbreakableBrick brickCreated = new UnbreakableBrick(i*brickWidth, brickHeight*x, "resources/brick3.gif" );
+				else if (randomVal.nextInt(maxOddsOfBrick) < oddsOfUnbreakableBrick ) {
+					UnbreakableBrick brickCreated = new UnbreakableBrick(i*Brick.brickWidth, Brick.brickHeight*x, this);
 					gameTargets.add(brickCreated);
 					root.getChildren().add(brickCreated.getNode());
 				}
@@ -81,11 +86,11 @@ public abstract class BrickBreakerGameState extends GameState{
 	public void bounceOffBricks() {
 		for(Projectile currentBall: gameProjectiles) {
 			for(int i = 0; i < gameTargets.size(); i ++) {
-				Brick currentBrick = (Brick) gameTargets.get(i);
+				Target currentBrick = gameTargets.get(i);
 				boolean intersects = currentBall.getBounds().intersects(currentBrick.getBounds());
 				if(intersects) {
 					currentBall.bounce(currentBrick);
-					if(currentBrick.getBrickType().equals("brick")) {
+					if(currentBrick.getType().equals("brick")) {
 						System.out.println("hit and removed a brick");
 						score.incrementScore(100);
 						root.getChildren().remove(currentBrick.getNode());
