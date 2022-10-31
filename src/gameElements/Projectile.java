@@ -5,7 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.shape.Circle;
 
 public abstract class Projectile extends GameElement{
-	private Circle circle;
+	 protected Circle circle;
 	 private Point2D myVelocity = new Point2D(100, 100);
 	
 	

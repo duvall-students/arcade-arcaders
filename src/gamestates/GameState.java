@@ -34,6 +34,7 @@ public abstract class GameState {
 		this.root = new Group();
 		this.gameTargets = new ArrayList<Target>();
 		this.gameProjectiles = new ArrayList<Projectile>();
+		this.gamePowerUps = new ArrayList<PowerUp>();
 		
 
 		this.score = new ScoreCard(screenWidth, screenHeight);

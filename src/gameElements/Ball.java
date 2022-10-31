@@ -17,7 +17,7 @@ public class Ball extends Projectile{
 
     private Random dice = new Random();
     private Point2D myVelocity = new Point2D(100, 100);
-    private Circle circle;
+//    private Circle circle;
     private final static int xOffSet = 50;
     private double velocityScaler = 100.0;
 
