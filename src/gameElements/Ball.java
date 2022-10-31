@@ -16,8 +16,6 @@ public class Ball extends Projectile{
     private final int BOUNCER_SIZE = 10;
 
     private Random dice = new Random();
-    private Point2D myVelocity = new Point2D(100, 100);
-//    private Circle circle;
     private final static int xOffSet = 50;
     private double velocityScaler = 100.0;
 
@@ -39,6 +37,7 @@ public class Ball extends Projectile{
     //ball no longer bounces off floor
     @Override
     public void bounceOffWall (int screenWidth, int screenHeight) {
+		System.out.println("sdfub");
         if (circle.getCenterX() - BOUNCER_SIZE < 0) {
             myVelocity = new Point2D(Math.abs(myVelocity.getX()) * this.getRandomInRange(80, 120) /100.0, myVelocity.getY() * this.getRandomInRange(80, 120) /100.0);
         } else if (circle.getCenterX() > screenWidth - BOUNCER_SIZE) {
