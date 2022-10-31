@@ -24,8 +24,8 @@ public class GalagaGameState extends GameState{
 	}
 	
 	@Override
-	public PlayerMover spawnPlayerMover() {
-		return null;
+	public void spawnPlayerMover() {
+		
 	}
 	
 	//Make step method that is called every frame
@@ -33,9 +33,4 @@ public class GalagaGameState extends GameState{
 		
 	}
 
-	//Inherited from GameState and makes basic frame checks for the brickbreaker game
-	@Override
-	public void makeGameChecks() {
-
-	}
 }

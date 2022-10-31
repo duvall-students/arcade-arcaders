@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class ScoreManager {
 	
-	private final static String pathToScoreFile = "resources/score.txt";
+	private final static String pathToScoreFile = "score.txt";
 	private int highScore;
 	
 	public ScoreManager() {
