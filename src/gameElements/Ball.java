@@ -84,11 +84,11 @@ public class Ball extends Projectile{
 //    	return this.circle.getBoundsInParent();
 //    }
 //    
-    @Override
-    public Node getNode() {
-    	return this.circle;
-    }
-    
+//    @Override
+//    public Node getNode() {
+//    	return this.circle;
+//    }
+     
     
     private Point2D normalizeVelocity(Point2D velocity) {
     	double unitXVelocity = velocity.getX() / Math.sqrt(velocity.getX() * velocity.getX() + velocity.getY() * velocity.getY());

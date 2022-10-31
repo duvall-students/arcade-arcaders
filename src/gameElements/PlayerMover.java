@@ -20,7 +20,7 @@ public class PlayerMover extends GameElement{
 	
 	
 	//potentially could use a constructor?
-
+ 
 	
 	public void moveLeft() {
 		userPlayerMover.setX(Math.max(this.userPlayerMover.getX() - moverSpeed, 0));

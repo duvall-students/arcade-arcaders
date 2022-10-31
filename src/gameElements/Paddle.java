@@ -33,7 +33,7 @@ public class Paddle extends PlayerMover{
 		this.userPlayerMover.setWidth(userPlayerMover.getWidth() + paddleSizeIncrement);
 		this.paddleWidth += paddleSizeIncrement;
 	}
-	
+	 
 //	@Override
 //	public Node getNode() {
 //		return this.userPlayerMover;

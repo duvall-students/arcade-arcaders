@@ -24,7 +24,7 @@ public class Brick extends Target{
 	private Rectangle brickRectangle;
 	private String brickPath = "resources/brick6.gif";
 	private ImageView brickView;
-		
+		 
 		//Constructor
 	public Brick(int brickXCoordinate, int brickYCoordinate, String brickImagePath) {
 		brickRectangle = new Rectangle(brickXCoordinate, brickYCoordinate, brickWidth, brickHeight);

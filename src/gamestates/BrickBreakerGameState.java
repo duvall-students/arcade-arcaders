@@ -18,7 +18,7 @@ public abstract class BrickBreakerGameState extends GameState{
 	
 	private final int oddsToGeneratePowerUp = 1001;
 	private int currentStep = 0;
-	
+	 
 	//Constructor that calls super constructor then adds in brickbreaker elements
 	public BrickBreakerGameState(int screenWidth, int screenHeight) {
 		super(screenWidth, screenHeight);	

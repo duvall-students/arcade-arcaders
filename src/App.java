@@ -56,7 +56,7 @@ public class App extends Application{
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         return scene;
     }
-    
+     
     private void step (double elapsedTime) {
     	if (!game.gameLost() && !game.isWon()) {
     		game.step(elapsedTime);
