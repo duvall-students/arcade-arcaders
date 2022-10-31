@@ -14,11 +14,11 @@ public abstract class BrickBreakerGameState extends GameState{
 	private final int brickHeight = 15;
 	private final int maxUnbreakableBrickOdds = 100;
 	private final int bricksPerRow = 8;
-	private int oddsOfBrick;
+	private int maxOddsOfBrick = 100;
 	
 	private final int oddsToGeneratePowerUp = 1001;
 	private int currentStep = 0;
-	
+	 
 	//Constructor that calls super constructor then adds in brickbreaker elements
 	public BrickBreakerGameState(int screenWidth, int screenHeight) {
 		super(screenWidth, screenHeight);	
@@ -31,24 +31,24 @@ public abstract class BrickBreakerGameState extends GameState{
 	public void makeGameStep(double elapsedTime) {
 		generatePowerUp();
 		handleBallMovement(elapsedTime);
+		bounceOffBricks();
 		checkForPowerUps();
 		checkBallIsOut();
 		checkForBalls();
 	}
 	
 	@Override
-	public void spawnGameTargets(int numberOfBrickRows, int maxBrickOdds, int oddsOfUnbreakableBrick) {
+	public void spawnGameTargets(int numberOfBrickRows, int brickOdds, int oddsOfUnbreakableBrick) {
 		//creating the bricks 
 		Random randomVal = new Random();
 		for(int x = 1; x<=numberOfBrickRows;x++) {
 			for(int i = 0; i < bricksPerRow; i ++) {
-				if (randomVal.nextInt(maxBrickOdds) < oddsOfBrick) {
+				if (randomVal.nextInt(maxOddsOfBrick) < brickOdds) {
 					Brick brickCreated = new Brick(i*brickWidth, brickHeight*x, "resources/brick6.gif" );
 					gameTargets.add(brickCreated);
 					root.getChildren().add(brickCreated.getNode());
 				}
 				else if (randomVal.nextInt(maxUnbreakableBrickOdds) < oddsOfUnbreakableBrick ) {
-					System.out.println(randomVal.nextInt(maxUnbreakableBrickOdds));
 					UnbreakableBrick brickCreated = new UnbreakableBrick(i*brickWidth, brickHeight*x, "resources/brick3.gif" );
 					gameTargets.add(brickCreated);
 					root.getChildren().add(brickCreated.getNode());
@@ -74,7 +74,6 @@ public abstract class BrickBreakerGameState extends GameState{
 			gameProjectiles.get(i).bounceOffWall(screenWidth, screenHeight);
 			gameProjectiles.get(i).bouncePaddle(playerMover);
 		}
-		bounceOffBricks();
 	}
 	//Below are brickbreaker methods that have been moved from GameState
 	
@@ -149,10 +148,8 @@ public abstract class BrickBreakerGameState extends GameState{
 	
 	//Possibly move to spawnGameProjectiles method?
 	public void addBall() {
-		Ball newBall = new Ball(screenWidth, screenHeight);
+		Projectile newBall = new Ball(screenWidth, screenHeight);
 		gameProjectiles.add(newBall);
-		System.out.println("addBall1");
-		//ISSUE HERE
 		root.getChildren().add(newBall.getNode());
 	}
 	
