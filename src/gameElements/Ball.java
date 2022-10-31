@@ -17,7 +17,7 @@ public class Ball extends Projectile{
 
     private Random dice = new Random();
     private Point2D myVelocity = new Point2D(100, 100);
-    private Circle circle;
+//    private Circle circle;
     private final static int xOffSet = 50;
     private double velocityScaler = 100.0;
 
@@ -84,11 +84,11 @@ public class Ball extends Projectile{
 //    	return this.circle.getBoundsInParent();
 //    }
 //    
-    @Override
-    public Node getNode() {
-    	return this.circle;
-    }
-    
+//    @Override
+//    public Node getNode() {
+//    	return this.circle;
+//    }
+     
     
     private Point2D normalizeVelocity(Point2D velocity) {
     	double unitXVelocity = velocity.getX() / Math.sqrt(velocity.getX() * velocity.getX() + velocity.getY() * velocity.getY());

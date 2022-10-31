@@ -16,7 +16,7 @@ public abstract class PowerUp extends GameElement{
 	private final int size = 20;
 	private ImageView powerUpView;
 	protected BrickBreakerGameState gameState;
-	
+	 
 	protected PowerUp(String powerUpImagePath, int screenWidth, int screenHeight, BrickBreakerGameState gameState) {
 		
 		this.gameState = gameState;

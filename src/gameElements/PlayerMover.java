@@ -5,12 +5,13 @@ import javafx.scene.shape.Rectangle;
 
 public class PlayerMover extends GameElement{
 	//some of these may need to be moved to subclasses 
-	private Rectangle userPlayerMover;
+	protected Rectangle userPlayerMover;
 	private int moverXPosition = 0;
 	private int moverYPositon = 0;
 	private int moverSpeed = 12;
 	//screenWidth required it to be initialized since screenWidth is a final variable 
-	private final int screenWidth=0;
+	protected int screenWidth=0;
+	protected int screenHeight=0;
 	//screenHeight never used as of now so commented out
 	//private final int screenHeight;
 	private final int moverHeight = 10;
@@ -19,7 +20,7 @@ public class PlayerMover extends GameElement{
 	
 	
 	//potentially could use a constructor?
-
+ 
 	
 	public void moveLeft() {
 		userPlayerMover.setX(Math.max(this.userPlayerMover.getX() - moverSpeed, 0));
@@ -27,6 +28,7 @@ public class PlayerMover extends GameElement{
 	}
 	
 	public void moveRight() {
+		//Problem is second half of min statement (screenwidth - moverwidth)
 		userPlayerMover.setX(Math.min(this.userPlayerMover.getX() + moverSpeed, screenWidth - moverWidth));
 		moverXPosition = (int) Math.min(this.userPlayerMover.getX() + moverSpeed, screenWidth - moverWidth);
 	}
