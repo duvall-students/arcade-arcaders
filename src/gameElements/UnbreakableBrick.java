@@ -27,8 +27,11 @@ public class UnbreakableBrick extends Target{
 
 	}
 	
-	public String getType() {
-		return "ubreakablebrick";
+	@Override
+	public void handleIntersects(Projectile p) {
+		if(p.getBounds().intersects(this.getBounds())) {
+			p.bounce(this);
+		}
 	}
 	
 }

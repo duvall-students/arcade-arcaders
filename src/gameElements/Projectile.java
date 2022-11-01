@@ -9,10 +9,13 @@ import javafx.scene.shape.Circle;
 public abstract class Projectile extends GameElement{
 	 protected Circle circle;
 	 protected Point2D myVelocity = new Point2D(100, 100);
+	 protected GameState parentGameState;
 	 
+
 	 private ImageView targetView;
 	 protected GameState parentGameState;
 	
+
 	 public Bounds getBounds() {
 	    	return this.targetView.getBoundsInParent();
 	    }
