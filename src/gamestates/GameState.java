@@ -36,14 +36,10 @@ public abstract class GameState {
 		this.gamePowerUps = new ArrayList<PowerUp>();
 		
 		spawnPlayerMover();
-		
-		this.score = new ScoreCard(screenWidth, screenHeight);
-		root.getChildren().add(score.getNode());
-		this.livesLeft = new LifeCounter(screenWidth, screenHeight, 3);
-		root.getChildren().add(this.livesLeft.getNode());
+		createScoreCard();
+		createLifeCounter();
 		
 		this.gameLost = false;
-		System.out.println("Test");
 
 	}
 	
@@ -132,6 +128,16 @@ public abstract class GameState {
 	public abstract void projectileIntersectTarget(Projectile currentProjetile, Target currentTarget);
 	//destroy for galaga
 	//bounce for brickbreaker (DONE)
+	
+	private void createScoreCard() {
+		this.score = new ScoreCard(screenWidth, screenHeight);
+		root.getChildren().add(score.getNode());
+	}
+	
+	private void createLifeCounter() {
+		this.livesLeft = new LifeCounter(screenWidth, screenHeight, 3);
+		root.getChildren().add(this.livesLeft.getNode());
+	}
 	
 	//THESE TWO MOVEMENT FUNCTIONS WILL BE CHANGED TO BE GENERAL FOR THE MOVER CLASS
 	public void moveLeft() {

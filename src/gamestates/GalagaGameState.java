@@ -21,8 +21,16 @@ public abstract class GalagaGameState extends GameState{
 	}
 	
 	//Make step method that is called every frame
+	@Override
 	public void makeGameStep(double elapsedTime) {
+		super.makeGameStep(elapsedTime);
+		//Aliens move down
 		
+	}
+	//check for out of bounds
+	@Override
+	public void makeProjectileChecks(Projectile currentProjectile) {
+		checkBulletOutOfBounds(currentProjectile);
 	}
 
 	//The rest of the class is fairly empty and will be soon implemented once we have arcade structure properly set up
@@ -34,15 +42,19 @@ public abstract class GalagaGameState extends GameState{
 	
 	@Override
 	public Projectile createProjectile() {
-		//Bullet constructor does not exist yet but soon will
-//		return new Bullet(screenWidth, screenHeight);
-
+		return new Bullet(screenWidth, screenHeight);
 	}
 	
 	@Override
 	public PlayerMover createPlayerMover() {
-		//Spaceship constructor does not exist yet but soon will
-//		return new Spaceship(screenWidth, screenHeight);
+		return new Spaceship(screenWidth, screenHeight);
+	}
+	
+	private void checkBulletOutOfBounds(Projectile currentProjectile) {
+		if (currentProjectile.getBounds().getMaxY() < 0) {
+			root.getChildren().remove(currentProjectile.getNode());
+			gameProjectiles.remove(gameProjectiles.indexOf(currentProjectile));
+		}
 	}
 	
 
