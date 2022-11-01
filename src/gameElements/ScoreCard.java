@@ -14,6 +14,7 @@ public class ScoreCard extends GameElement {
 	private ScoreManager scoreManager;
 	private final static int xOffset = -100;
 	private final static int yOffset = -20;
+	private final int scoreIncrement = 100;
 	
 	public ScoreCard(int screenWidth, int screenHeight) {
 		this.currentScore = 0;
@@ -23,8 +24,8 @@ public class ScoreCard extends GameElement {
 				String.format("Score: %d\nHighScore: %d", currentScore, highScore));
 	}
 	
-	public void incrementScore(int increment) {
-		this.currentScore += increment;
+	public void incrementScore() {
+		this.currentScore += scoreIncrement;
 		this.highScore = Math.max(this.currentScore,  this.highScore);
 		this.textToDisplay.setText(String.format("Score: %d\nHighScore: %d", currentScore, highScore));
 	}
