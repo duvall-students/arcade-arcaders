@@ -19,6 +19,14 @@ public class PlayerMover extends GameElement{
 	
 	
 	
+	public PlayerMover(int screenWidth, int screenHeight) {
+			this.screenWidth = screenWidth;
+			this.screenHeight = screenHeight;
+			this.moverXPosition = screenWidth/2;
+			this.moverYPositon = screenHeight - screenHeight/10;
+	}
+	
+	
 	//potentially could use a constructor?
  
 	
