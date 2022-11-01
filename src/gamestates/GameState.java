@@ -20,6 +20,7 @@ public abstract class GameState {
 	protected PlayerMover playerMover;
 	protected List<PowerUp> gamePowerUps;
 	protected Group root;
+	protected int currentStep = 0;
 
 	protected int screenWidth;
 	protected int screenHeight;
@@ -35,17 +36,34 @@ public abstract class GameState {
 		this.gameProjectiles = new ArrayList<Projectile>();
 		this.gamePowerUps = new ArrayList<PowerUp>();
 		
+
 		spawnPlayerMover();
 		createScoreCard();
 		createLifeCounter();
 		
 		this.gameLost = false;
 
+
 	}
 	
 	//Changing to be more general for gamestates
 	public void step(double elapsedTime) {
 		makeGameStep(elapsedTime);
+	}
+	
+	public void incrementScore() {
+		this.score.incrementScore();
+	}
+	
+	public void removeTarget(Target t) {
+		this.score.incrementScore();
+		this.root.getChildren().remove(t.getNode());
+		gameTargets.remove(t);
+	}
+	
+	public void removeProjectile(Projectile p) {
+		this.root.getChildren().remove(p.getNode());
+		gameProjectiles.remove(p);
 	}
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
@@ -137,6 +155,9 @@ public abstract class GameState {
 	private void createLifeCounter() {
 		this.livesLeft = new LifeCounter(screenWidth, screenHeight, 3);
 		root.getChildren().add(this.livesLeft.getNode());
+
+	public void makeGameStep(double elapsedTime) {
+		currentStep += 1;
 	}
 	
 	//THESE TWO MOVEMENT FUNCTIONS WILL BE CHANGED TO BE GENERAL FOR THE MOVER CLASS
@@ -160,6 +181,15 @@ public abstract class GameState {
 	//Checks to see if number of targets = 0 to see if player won this level
 	public boolean isWon() {
 		return this.gameTargets.size() == 0;
-	}	
+	}
+	
+	public void handleAllIntersects() {
+		for(Projectile currentProjectile: gameProjectiles) {
+			for(int i = 0; i < gameTargets.size(); i ++) {
+				Target currentTarget = gameTargets.get(i);
+				currentTarget.handleIntersects(currentProjectile);
+			}
+		}
+	}
 	
 }

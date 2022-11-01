@@ -22,16 +22,18 @@ public class Brick extends Target{
 	public final static int brickHeight = 15;
 	public final static int brickWidth = 50;
 	private final static String brickPath = "resources/brick6.gif";
-	private ImageView brickView;
 		 
 		//Constructor
 	public Brick(int brickXCoordinate, int brickYCoordinate, GameState gs) {
 		super(brickXCoordinate, brickYCoordinate, brickPath, brickWidth, brickHeight, gs);
-
 	}
 	
-	public String getType() {
-		return "brick";
+	@Override
+	public void handleIntersects(Projectile p) {
+		if(p.getBounds().intersects(this.getBounds())) {
+			p.bounce(this);
+			this.parentGameState.removeTarget(this);
+		}
 	}
 	
 }
