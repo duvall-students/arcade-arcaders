@@ -20,11 +20,9 @@ public class Paddle extends PlayerMover{
 	private int paddleSizeIncrement = 20;
 //	private Rectangle userPaddle;
 	
+	
 	public Paddle(int screenWidth, int screenHeight) {
-		this.screenWidth = screenWidth;
-		this.screenHeight = screenHeight;
-		this.paddleXPosition = screenWidth/2;
-		this.paddleYPosition = screenHeight - screenHeight/10;
+		super(screenWidth, screenHeight);
 		this.userPlayerMover = new Rectangle(paddleXPosition, paddleYPosition, paddleWidth, paddleHeight);
 		this.userPlayerMover.setFill(paddleColor);
 	}

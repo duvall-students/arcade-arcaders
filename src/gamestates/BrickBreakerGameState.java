@@ -2,6 +2,8 @@ package gamestates;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.TreeMap;
+
 import gameElements.*;
 
 //Created by Ethan Jeffries
@@ -15,6 +17,10 @@ public abstract class BrickBreakerGameState extends GameState{
 	protected final int oddsOfUnbreakableBrick;
 	private final int oddsToGeneratePowerUp = 1001;
 	private int currentStep = 0;
+	private final int TARGETOFFSET = 0;
+	//POSSIBLY CHANGE HOW THESE ARE FOUND
+	private final int TARGETWIDTH = 50;
+	private final int TARGETHEIGHT = 15;
 	
 	//Constructor that calls super constructor then adds in brickbreaker elements
 	public BrickBreakerGameState(int screenWidth, int screenHeight, int numberOfBrickRows, int brickOdds, int oddsOfUnbreakableBrick) {
@@ -22,8 +28,7 @@ public abstract class BrickBreakerGameState extends GameState{
 		this.numberOfBrickRows = numberOfBrickRows;
 		this.brickOdds = brickOdds;
 		this.oddsOfUnbreakableBrick = oddsOfUnbreakableBrick;
-		spawnGameTargets();
-		spawnPlayerMover();
+		super.spawnGameTargets(numberOfBrickRows, TARGETOFFSET, TARGETWIDTH, TARGETHEIGHT);
 		spawnGameProjectiles();
 	}
 	
@@ -36,51 +41,61 @@ public abstract class BrickBreakerGameState extends GameState{
 		handleAllIntersects();
 		checkForPowerUps();
 		checkBallIsOut();
+
 		checkForBalls();
 	}
 	
-	@Override
-	public void spawnGameTargets() {
-		this.spawnGameTargets(this.numberOfBrickRows, this.brickOdds, this.oddsOfUnbreakableBrick);
-	}
 	
-	public void spawnGameTargets(int numberOfBrickRows, int brickOdds, int oddsOfUnbreakableBrick) {
+	@Override
+	public Target createTarget(int targetXCoordinate, int targetYCoordinate) {
 		//creating the bricks 
+		TreeMap<Integer, Target> possibleBricks = new TreeMap<Integer, Target>();
+		possibleBricks.put(brickOdds, new Brick(targetXCoordinate, targetYCoordinate, this));
+		possibleBricks.put(maxOddsOfBrick, new UnbreakableBrick(targetXCoordinate, targetYCoordinate, this));
 		Random randomVal = new Random();
-		for(int x = 1; x<=numberOfBrickRows;x++) {
-			for(int i = 0; i < this.screenWidth / Brick.brickWidth; i ++) {
-				if (randomVal.nextInt(maxOddsOfBrick) < brickOdds) {
-					Brick brickCreated = new Brick(i*Brick.brickWidth, Brick.brickHeight*x, this);
-					gameTargets.add(brickCreated);
-					root.getChildren().add(brickCreated.getNode());
-				}
-				else if (randomVal.nextInt(maxOddsOfBrick) < oddsOfUnbreakableBrick ) {
-					UnbreakableBrick brickCreated = new UnbreakableBrick(i*Brick.brickWidth, Brick.brickHeight*x, this);
-					gameTargets.add(brickCreated);
-					root.getChildren().add(brickCreated.getNode());
-				}
-			}
+		return possibleBricks.higherEntry(randomVal.nextInt(maxOddsOfBrick)).getValue();		
+	}
+	
+	@Override
+	public Projectile createProjectile() {
+		if (gameProjectiles.size() == 0) {
+			return new Ball(screenWidth, screenHeight);
+		}
+		else {
+			return new Ball(0,0);
 		}
 	}
 	
 	@Override
-	public void spawnGameProjectiles() {
-		this.addBall();
+	public PlayerMover createPlayerMover() {
+		return new Paddle(screenWidth, screenHeight);
 	}
 	
 	@Override
-	public void spawnPlayerMover() {
-		playerMover = new Paddle(screenWidth, screenHeight);
-		root.getChildren().add(playerMover.getNode());
+	public void makeProjectileChecks(Projectile currentProjectile) {
+		currentProjectile.bounceOffWall(screenWidth, screenHeight);
+		currentProjectile.bouncePaddle(playerMover);
+		checkBallIsOut(currentProjectile);
 	}
+
+	//Below are brickbreaker methods that have been moved from GameState
 	
-	public void handleBallMovement(double elapsedTime) {
-		for (int i = 0; i < gameProjectiles.size(); i++) {
-			gameProjectiles.get(i).move(elapsedTime);
-			gameProjectiles.get(i).bounceOffWall(screenWidth, screenHeight);
-			gameProjectiles.get(i).bouncePaddle(playerMover);
+	//Possibly restructure to allow for a uniform look in handleBallMovement
+	@Override
+	public void projectileIntersectTarget(Projectile currentProjectile, Target currentTarget) {
+		currentProjectile.bounce(currentTarget);
+		if(currentTarget.getType().equals("brick")) {		
+			root.getChildren().remove(currentTarget.getNode());
+			gameTargets.remove(gameTargets.indexOf(currentTarget));
 		}
 	}
+	
+	public void checkBallIsOut(Projectile currentProjectile) {
+		double ballY = currentProjectile.getBounds().getCenterY();
+		if (ballY>screenHeight){
+			gameProjectiles.remove(gameProjectiles.indexOf(currentProjectile));
+			root.getChildren().remove(currentProjectile.getNode());
+
 
 	public void checkForPowerUps() {
 		for(int j = 0; j < gameProjectiles.size(); ++j) {
@@ -106,6 +121,7 @@ public abstract class BrickBreakerGameState extends GameState{
 				gameProjectiles.remove(i);
 				root.getChildren().remove(currentBall.getNode());
 			}
+
 		}
 	}
 	
@@ -134,6 +150,7 @@ public abstract class BrickBreakerGameState extends GameState{
 		gameProjectiles.add(newBall);
 		root.getChildren().add(newBall.getNode());
 	}
+	
 	
 	public void generatePowerUp() {
 		if (++ currentStep % oddsToGeneratePowerUp == 1) {

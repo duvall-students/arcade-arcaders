@@ -35,14 +35,15 @@ public abstract class GameState {
 		this.gameTargets = new ArrayList<Target>();
 		this.gameProjectiles = new ArrayList<Projectile>();
 		this.gamePowerUps = new ArrayList<PowerUp>();
-		 
+		
 
-		this.score = new ScoreCard(screenWidth, screenHeight);
-		root.getChildren().add(score.getNode());
-		this.livesLeft = new LifeCounter(screenWidth, screenHeight, 3);
-		root.getChildren().add(this.livesLeft.getNode());
+		spawnPlayerMover();
+		createScoreCard();
+		createLifeCounter();
 		
 		this.gameLost = false;
+
+
 	}
 	
 	//Changing to be more general for gamestates
@@ -66,15 +67,95 @@ public abstract class GameState {
 	}
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
-	public abstract void spawnGameTargets();
+	public void makeGameStep(double elapsedTime) {
+		handleProjectiles(elapsedTime);
+	}
+	
+	//Method that spawns game targets created by the gamestate (will be called from the child constructors)
+	public void spawnGameTargets(int rowsOfTargets, int targetOffset, int targetWidth, int targetHeight) {
+		for (int i = 0; i < rowsOfTargets; i++) {
+			for (int x = 0; x < (screenWidth / (targetWidth + targetOffset)); x++) {
+				Target createdTarget = createTarget((targetWidth*x)+(targetOffset*x)+targetOffset,(targetHeight*i)+(targetOffset*i));
+				gameTargets.add(createdTarget);
+				root.getChildren().add(createdTarget.getNode());
+			}
+		}
+	}
+	
+	//Method that creates the target objects for spawn game target function (will be overriden in children classes)
+	public abstract Target createTarget(int targetXCoordinate, int targetYCoordinate);
+	
+	
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
-	public abstract void spawnGameProjectiles();
+	public void spawnGameProjectiles() {
+		Projectile createdProjectile = createProjectile();
+		gameProjectiles.add(createdProjectile);
+		root.getChildren().add(createdProjectile.getNode());
+	}
+	
+	public abstract Projectile createProjectile();
+	
+	
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
-	public abstract void spawnPlayerMover();
+	public void spawnPlayerMover() {
+		playerMover = createPlayerMover();
+		root.getChildren().add(playerMover.getNode());
+	}
 	
-	//Empty method that is inherited and overridden by children classes for creating game items
+	public abstract PlayerMover createPlayerMover();
+	
+	
+	//Game functioning methods
+	public void handleProjectiles(double elapsedTime) {
+		for (int i = 0; i < gameProjectiles.size(); i++) {
+			gameProjectiles.get(i).move(elapsedTime);
+			handleProjectileTargetIntersection(gameProjectiles.get(i));
+			handleProjectilePowerUpIntersection(gameProjectiles.get(i));
+			makeProjectileChecks(gameProjectiles.get(i));
+		}
+	}
+
+	public abstract void makeProjectileChecks(Projectile currentProjectile);
+	
+	public void handleProjectileTargetIntersection(Projectile currentProjectile) {
+		for (int i = 0; i < gameTargets.size(); i++) {
+			Target currentTarget = gameTargets.get(i);
+			if(currentProjectile.getBounds().intersects(currentTarget.getBounds())) {
+				
+				//NEW SCORE SYSTEM NEEDED FOR TARGETS
+//				score.incrementScore(currentTarget.getScore());
+				
+				projectileIntersectTarget(currentProjectile, currentTarget);
+			}
+		}
+	}
+	
+	public void handleProjectilePowerUpIntersection(Projectile currentProjectile) {
+		for(int i=0; i<gamePowerUps.size(); i++) {
+			PowerUp currentPowerUp = gamePowerUps.get(i);
+			if(currentProjectile.getBounds().intersects(currentPowerUp.getBounds())) {
+				root.getChildren().remove(currentPowerUp.getNode());
+				currentPowerUp.activatePowerUp();
+				gamePowerUps.remove(currentPowerUp);
+			}
+		}
+	}
+	
+	public abstract void projectileIntersectTarget(Projectile currentProjetile, Target currentTarget);
+	//destroy for galaga
+	//bounce for brickbreaker (DONE)
+	
+	private void createScoreCard() {
+		this.score = new ScoreCard(screenWidth, screenHeight);
+		root.getChildren().add(score.getNode());
+	}
+	
+	private void createLifeCounter() {
+		this.livesLeft = new LifeCounter(screenWidth, screenHeight, 3);
+		root.getChildren().add(this.livesLeft.getNode());
+
 	public void makeGameStep(double elapsedTime) {
 		currentStep += 1;
 	}

@@ -26,7 +26,7 @@ public class Ball extends Projectile{
     }
      
     //ball no longer bounces off floor
-    @Override
+    //@Override
     public void bounceOffWall (int screenWidth, int screenHeight) {
         if (circle.getCenterX() - BOUNCER_SIZE < 0) {
             myVelocity = new Point2D(Math.abs(myVelocity.getX()) * this.getRandomInRange(80, 120) /100.0, myVelocity.getY() * this.getRandomInRange(80, 120) /100.0);
@@ -55,7 +55,7 @@ public class Ball extends Projectile{
 //    	myVelocity = new Point2D(-1 * myVelocity.getX(), myVelocity.getY());
 //    }
     
-    @Override
+    //@Override
     public void bouncePaddle(PlayerMover playerMover) {
     	boolean intersects = this.getBounds().intersects(playerMover.getBounds());
 		double ballX = this.getBounds().getMinX();
@@ -78,6 +78,8 @@ public class Ball extends Projectile{
 //    	return this.circle;
 //    }
      
+    
+    
     
     private Point2D normalizeVelocity(Point2D velocity) {
     	double unitXVelocity = velocity.getX() / Math.sqrt(velocity.getX() * velocity.getX() + velocity.getY() * velocity.getY());
