@@ -1,9 +1,13 @@
 package gameElements;
+import gamestates.GameState;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 
 public class PlayerMover extends GameElement{
+	
+
+
 	//some of these may need to be moved to subclasses 
 	protected Rectangle userPlayerMover;
 	private int moverXPosition = 0;

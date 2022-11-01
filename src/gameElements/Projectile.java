@@ -1,4 +1,5 @@
 package gameElements;
+import gamestates.GameState;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -7,8 +8,8 @@ import javafx.scene.shape.Circle;
 public abstract class Projectile extends GameElement{
 	 protected Circle circle;
 	 protected Point2D myVelocity = new Point2D(100, 100);
+	 protected GameState parentGameState;
 	 
-	
 	 public Bounds getBounds() {
 	    	return this.circle.getBoundsInParent();
 	    }

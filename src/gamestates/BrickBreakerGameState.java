@@ -30,9 +30,10 @@ public abstract class BrickBreakerGameState extends GameState{
 	//Inherited from GameState and makes basic frame checks for the brickbreaker game
 	@Override
 	public void makeGameStep(double elapsedTime) {
+		super.makeGameStep(elapsedTime);
 		generatePowerUp();
 		handleBallMovement(elapsedTime);
-		bounceOffBricks();
+		handleAllIntersects();
 		checkForPowerUps();
 		checkBallIsOut();
 		checkForBalls();
@@ -80,30 +81,6 @@ public abstract class BrickBreakerGameState extends GameState{
 			gameProjectiles.get(i).bouncePaddle(playerMover);
 		}
 	}
-	//Below are brickbreaker methods that have been moved from GameState
-	
-	//Possibly restructure to allow for a uniform look in handleBallMovement
-	public void bounceOffBricks() {
-		for(Projectile currentBall: gameProjectiles) {
-			for(int i = 0; i < gameTargets.size(); i ++) {
-				Target currentBrick = gameTargets.get(i);
-				boolean intersects = currentBall.getBounds().intersects(currentBrick.getBounds());
-				if(intersects) {
-					currentBall.bounce(currentBrick);
-					if(currentBrick.getType().equals("brick")) {
-						System.out.println("hit and removed a brick");
-						score.incrementScore(100);
-						root.getChildren().remove(currentBrick.getNode());
-						gameTargets.remove(currentBrick);
-					}
-					else {
-						System.out.println("unbreakable");
-					}
-					
-				}
-			}
-		}
-	}
 
 	public void checkForPowerUps() {
 		for(int j = 0; j < gameProjectiles.size(); ++j) {
@@ -124,7 +101,7 @@ public abstract class BrickBreakerGameState extends GameState{
 	public void checkBallIsOut() {
 		for (int i = 0; i < gameProjectiles.size(); i ++) {
 			Ball currentBall = (Ball) gameProjectiles.get(i);
-			double ballY = currentBall.getBounds().getCenterY();
+			double ballY = currentBall.getBounds().getMinY();
 			if (ballY>screenHeight){
 				gameProjectiles.remove(i);
 				root.getChildren().remove(currentBall.getNode());

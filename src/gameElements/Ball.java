@@ -25,15 +25,6 @@ public class Ball extends Projectile{
         circle.setCenterY(screenHeight/2-xOffSet);
     }
      
-
-     
-    //moved into projectile
-//    public void move (double elapsedTime) {
-//        circle.setCenterX(circle.getCenterX() + myVelocity.getX() * elapsedTime);
-//        circle.setCenterY(circle.getCenterY() + myVelocity.getY() * elapsedTime);
-//    }
-
-    
     //ball no longer bounces off floor
     @Override
     public void bounceOffWall (int screenWidth, int screenHeight) {
@@ -49,7 +40,7 @@ public class Ball extends Projectile{
     
     public void bounce(GameElement ge) {
     	Bounds geBounds = ge.getBounds();
-    	if (this.getBounds().intersects(geBounds) && this.getBounds().getCenterX() > geBounds.getMinX() && this.getBounds().getCenterX() < geBounds.getMaxX()) {
+    	if (this.getBounds().intersects(geBounds) && this.getBounds().getMinX() > geBounds.getMinX() && this.getBounds().getMinX() < geBounds.getMaxX()) {
     		myVelocity = new Point2D(myVelocity.getX(), myVelocity.getY() * -1);
     	} else if (this.getBounds().intersects(geBounds)) {
     		myVelocity = new Point2D(myVelocity.getX() * -1, myVelocity.getY());
@@ -67,9 +58,9 @@ public class Ball extends Projectile{
     @Override
     public void bouncePaddle(PlayerMover playerMover) {
     	boolean intersects = this.getBounds().intersects(playerMover.getBounds());
-		double ballX = this.getBounds().getCenterX();
-		double ballY = this.getBounds().getCenterY();
-		double paddleMiddleX = playerMover.getBounds().getCenterX();
+		double ballX = this.getBounds().getMinX();
+		double ballY = this.getBounds().getMinY();
+		double paddleMiddleX = playerMover.getBounds().getMinX();
 		if (intersects && ballX < paddleMiddleX && ballY < playerMover.getBounds().getMaxY()) {
 			myVelocity = new Point2D(-1 * Math.abs(myVelocity.getX()), -1 * myVelocity.getY());
 		}
