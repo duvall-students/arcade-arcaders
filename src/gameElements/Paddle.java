@@ -18,23 +18,26 @@ public class Paddle extends PlayerMover{
 	private int paddleXPosition = 0;
 	private int paddleYPosition = 0;
 	private int paddleSizeIncrement = 20;
-	private final int screenWidth;
-	private final int screenHeight;
-	private Rectangle userPaddle;
+//	private Rectangle userPaddle;
 	
 	public Paddle(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		this.paddleXPosition = screenWidth/2;
 		this.paddleYPosition = screenHeight - screenHeight/10;
-		this.userPaddle = new Rectangle(paddleXPosition, paddleYPosition, paddleWidth, paddleHeight);
-		this.userPaddle.setFill(paddleColor);
+		this.userPlayerMover = new Rectangle(paddleXPosition, paddleYPosition, paddleWidth, paddleHeight);
+		this.userPlayerMover.setFill(paddleColor);
 	}
 	  
 	public void increaseX() {
-		this.userPaddle.setWidth(userPaddle.getWidth() + paddleSizeIncrement);
+		this.userPlayerMover.setWidth(userPlayerMover.getWidth() + paddleSizeIncrement);
 		this.paddleWidth += paddleSizeIncrement;
 	}
+	 
+//	@Override
+//	public Node getNode() {
+//		return this.userPlayerMover;
+//	}
 	
 
 
