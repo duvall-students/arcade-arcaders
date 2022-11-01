@@ -21,7 +21,6 @@ public abstract class GameState {
 	protected List<PowerUp> gamePowerUps;
 	protected Group root;
 
-	
 	protected int screenWidth;
 	protected int screenHeight;
 	protected LifeCounter livesLeft;
@@ -34,10 +33,9 @@ public abstract class GameState {
 		this.root = new Group();
 		this.gameTargets = new ArrayList<Target>();
 		this.gameProjectiles = new ArrayList<Projectile>();
-		this.playerMover = spawnPlayerMover();
-		
-		spawnGameProjectiles();
-		
+		this.gamePowerUps = new ArrayList<PowerUp>();
+		 
+
 		this.score = new ScoreCard(screenWidth, screenHeight);
 		root.getChildren().add(score.getNode());
 		this.livesLeft = new LifeCounter(screenWidth, screenHeight, 3);
@@ -45,6 +43,7 @@ public abstract class GameState {
 		
 		this.gameLost = false;
 		
+
 	}
 	
 	//Changing to be more general for gamestates
@@ -53,13 +52,13 @@ public abstract class GameState {
 	}
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
-	public abstract void spawnGameTargets(int numberOfBrickRows, int maxBrickOdds, int oddsOfUnbreakableBrick);
+	public abstract void spawnGameTargets();
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
 	public abstract void spawnGameProjectiles();
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
-	public abstract PlayerMover spawnPlayerMover();
+	public abstract void spawnPlayerMover();
 	
 	//Empty method that is inherited and overridden by children classes for creating game items
 	public abstract void makeGameStep(double elapsedTime);
@@ -85,9 +84,6 @@ public abstract class GameState {
 	//Checks to see if number of targets = 0 to see if player won this level
 	public boolean isWon() {
 		return this.gameTargets.size() == 0;
-	}
-
-	public abstract void makeGameChecks();	
-	
+	}	
 	
 }

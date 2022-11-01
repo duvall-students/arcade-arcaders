@@ -1,12 +1,11 @@
 
 
-import gamestates.levels.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-
-import gamestates.GameState;
+import gamestates.*;
+import gamestates.levels.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -50,19 +49,20 @@ public class App extends Application{
 	
     private Scene initializeGameScene (int width, int height, Paint background) {
     	//Changed the gamestate that is created
-    	levels = new GameState[] {new Level1(width, height), new Level2(width, height), new Level3(width,height)};
-        this.currentLevel = 0;
-    	game = levels[currentLevel];
+    	levels = new GameState[] {new GalagaLevel1(width, height), new GalagaLevel2(width, height), new GalagaLevel3(width, height)};
+    	this.currentLevel = 0;
+        game = levels[currentLevel];
         Scene scene = new Scene(game.getRoot(), width, height, background);
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         return scene;
     }
-    
+     
     private void step (double elapsedTime) {
     	if (!game.gameLost() && !game.isWon()) {
     		game.step(elapsedTime);
     	}
     	if (game.isWon()) {
+    		System.out.println("LEVEL WON");
     		this.nextLevel();
     	}
     }
