@@ -74,12 +74,24 @@ public class GalagaGameState extends GameState{
 		}
 	}
 	
+	public void checkForTooLowAliens() {
+		double lowest = 0;
+		for (Target t: gameTargets) {
+			lowest = Math.max(lowest, t.getBounds().getMaxY());
+		}
+		if(lowest > this.playerMover.getBounds().getMinY()) {
+			this.gameTargets = new ArrayList<Target>();
+			this.spawnGameTargets();
+		}
+	}
+	
 	//Make step method that is called every frame
 	public void makeGameStep(double elapsedTime) {
 		super.makeGameStep(elapsedTime);
 		invadeWithAllALiens();
 		handleProjectileMovement(elapsedTime);
 		handleAllIntersects();
+		checkForTooLowAliens();
 	}
 
 }
