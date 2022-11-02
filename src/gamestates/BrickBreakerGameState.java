@@ -5,7 +5,7 @@ import java.util.Random;
 import gameElements.*;
 
 //Created by Ethan Jeffries
-//Breaking apart original GameState class into children class of BreakoutGameState
+//Children class of gamestate that overrides certain functions and performs brickbreaker specific functions
 
 public abstract class BrickBreakerGameState extends GameState{
 
@@ -39,11 +39,13 @@ public abstract class BrickBreakerGameState extends GameState{
 		checkForBalls();
 	}
 	
+	//Overridden from GameState and spawns in targets
 	@Override
 	public void spawnGameTargets() {
 		this.spawnGameTargets(this.numberOfBrickRows, this.brickOdds, this.oddsOfUnbreakableBrick);
 	}
 	
+	//Method that is called from spawnGameTargets but with specific criteria for the brick layout
 	public void spawnGameTargets(int numberOfBrickRows, int brickOdds, int oddsOfUnbreakableBrick) {
 		//creating the bricks 
 		Random randomVal = new Random();
@@ -63,17 +65,20 @@ public abstract class BrickBreakerGameState extends GameState{
 		}
 	}
 	
+	//Overridden from gamestate and spawns projectiles when neccesary
 	@Override
 	public void spawnGameProjectiles() {
 		this.addBall();
 	}
 	
+	//Overridden from gamestate and creates the paddle object
 	@Override
 	public void spawnPlayerMover() {
 		playerMover = new Paddle(screenWidth, screenHeight);
 		root.getChildren().add(playerMover.getNode());
 	}
 	
+	//Handles all ball movement each frame
 	public void handleBallMovement(double elapsedTime) {
 		for (int i = 0; i < gameProjectiles.size(); i++) {
 			gameProjectiles.get(i).move(elapsedTime);
@@ -82,6 +87,7 @@ public abstract class BrickBreakerGameState extends GameState{
 		}
 	}
 
+	//Checks for intersection between projectiles and any powerups that are present
 	public void checkForPowerUps() {
 		for(int j = 0; j < gameProjectiles.size(); ++j) {
 			Ball currentBall = (Ball) gameProjectiles.get(j);
@@ -98,6 +104,7 @@ public abstract class BrickBreakerGameState extends GameState{
 		}
 	}
 	
+	//Checks if any balls have traveled below the paddle and if so they are removed
 	public void checkBallIsOut() {
 		for (int i = 0; i < gameProjectiles.size(); i ++) {
 			Ball currentBall = (Ball) gameProjectiles.get(i);
@@ -109,6 +116,8 @@ public abstract class BrickBreakerGameState extends GameState{
 		}
 	}
 	
+	//Checks if there are balls still in the game and if there aren't any a life is taken and a ball is spawned
+	//If there are no balls and no lives then the game is lost
 	public void checkForBalls() {
 		if (gameProjectiles.size() == 0 && livesLeft.getLivesLeft() > 0) {
 			livesLeft.changeLives(-1);
@@ -122,19 +131,20 @@ public abstract class BrickBreakerGameState extends GameState{
 		}
 	}
 
-	//May move to paddle class
+	//Increases paddle size for powerup
 	public void increasePaddleSize() {
 		Paddle p = (Paddle) this.playerMover;
 		p.increaseX();
 	}
 	
-	//Possibly move to spawnGameProjectiles method?
+	//Used to add a ball whenever needed either at beginning of turn or due to powerup
 	public void addBall() {
 		Projectile newBall = new Ball(screenWidth, screenHeight);
 		gameProjectiles.add(newBall);
 		root.getChildren().add(newBall.getNode());
 	}
 	
+	//Runs the odds to generate a powerup and if so which one to create
 	public void generatePowerUp() {
 		if (++ currentStep % oddsToGeneratePowerUp == 1) {
 			int rand = playerMover.getRandomInRange(0, 100);
