@@ -78,15 +78,26 @@ public class GalagaGameState extends GameState{
 		}
 	}
 	
-	//Checks if the aliens have gone below the playermover and if so spawns them again at the top
+	//Checks if the aliens have gone below the playermover and if so spawns them again at the top and removes a life
 	public void checkForTooLowAliens() {
 		double lowest = 0;
 		for (Target t: gameTargets) {
 			lowest = Math.max(lowest, t.getBounds().getMaxY());
 		}
 		if(lowest > this.playerMover.getBounds().getMinY()) {
-			this.gameTargets = new ArrayList<Target>();
-			this.spawnGameTargets();
+			this.livesLeft.changeLives(-1);
+			if (this.livesLeft.getLivesLeft()>0) {
+				for (int i = gameTargets.size()-1; i >= 0; i--) {
+					this.root.getChildren().remove(gameTargets.get(i).getNode());
+					gameTargets.remove(gameTargets.get(i));
+				}
+				this.gameTargets = new ArrayList<Target>();
+				this.spawnGameTargets();
+			}
+			else if (this.livesLeft.getLivesLeft()==0) {
+				gameLost = true;
+				root.getChildren().add(new GameOverMessage(screenWidth, screenHeight, score.getCurrentScore(),score.getHightScore()).getNode());
+			}
 		}
 	}
 	
