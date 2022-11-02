@@ -12,6 +12,7 @@ public class GalagaGameState extends GameState{
 	protected final int numOfAlienRows;
 	private final int AlienOffset = 10;
 	private boolean moveToLeft = true;
+	protected String pathToScoreFile = "resources/gal_high_score";
 	//private List<Alien> aliens;
 
 	public GalagaGameState(int screenWidth, int screenHeight, int numOfAlienRows) {
@@ -19,6 +20,7 @@ public class GalagaGameState extends GameState{
 		this.numOfAlienRows = numOfAlienRows;
 		this.spawnGameTargets();
 		this.spawnPlayerMover();
+		this.setUpScoreCard(pathToScoreFile);
 	}
 
 	//Method that spawns in game targets which will override the parent method
@@ -78,6 +80,13 @@ public class GalagaGameState extends GameState{
 		}
 	}
 	
+
+	public void removeAllTargetsFromRoot() {
+		for (Target t: gameTargets) {
+			root.getChildren().remove(t.getNode());
+		}
+	}
+	
 	//Checks if the aliens have gone below the playermover and if so spawns them again at the top and removes a life
 	public void checkForTooLowAliens() {
 		double lowest = 0;
@@ -85,19 +94,14 @@ public class GalagaGameState extends GameState{
 			lowest = Math.max(lowest, t.getBounds().getMaxY());
 		}
 		if(lowest > this.playerMover.getBounds().getMinY()) {
-			this.livesLeft.changeLives(-1);
-			if (this.livesLeft.getLivesLeft()>0) {
-				for (int i = gameTargets.size()-1; i >= 0; i--) {
-					this.root.getChildren().remove(gameTargets.get(i).getNode());
-					gameTargets.remove(gameTargets.get(i));
-				}
+			//setHighScore(livesLeft.setHighScore)
+			this.removeAllTargetsFromRoot();
+			if (livesLeft.getLivesLeft() > 0) {
+				livesLeft.changeLives(-1);
 				this.gameTargets = new ArrayList<Target>();
 				this.spawnGameTargets();
 			}
-			else if (this.livesLeft.getLivesLeft()==0) {
-				gameLost = true;
-				root.getChildren().add(new GameOverMessage(screenWidth, screenHeight, score.getCurrentScore(),score.getHightScore()).getNode());
-			}
+
 		}
 	}
 	

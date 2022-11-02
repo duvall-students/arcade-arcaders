@@ -9,7 +9,8 @@ public class Alien extends Target{
 	public final static int alienWidth = 25;
 	private final static String alienPath = "resources/alien.gif";
 	private final double downwardVelocity = 0.05;
-	private final double sidewardsVelocity = 0.05;
+	private final double sidewardsVelocity = 0.07;
+
 
 		//Constructor
 	public Alien(int xCoordinate, int yCoordinate, GameState gs) {

@@ -12,13 +12,13 @@ public class ScoreCard extends GameElement {
 	private int highScore;
 	private Text textToDisplay;
 	private ScoreManager scoreManager;
-	private final static int xOffset = -100;
+	private final static int xOffset = -150;
 	private final static int yOffset = -20;
 	private final int scoreIncrement = 100;
 	
-	public ScoreCard(int screenWidth, int screenHeight) {
+	public ScoreCard(int screenWidth, int screenHeight, String pathToHighScore) {
 		this.currentScore = 0;
-		this.scoreManager = new ScoreManager();
+		this.scoreManager = new ScoreManager(pathToHighScore);
 		this.highScore = scoreManager.getHighScore();
 		textToDisplay = new Text(screenWidth + xOffset, screenHeight + yOffset,
 				String.format("Score: %d\nHighScore: %d", currentScore, highScore));
@@ -41,10 +41,21 @@ public class ScoreCard extends GameElement {
 	
 	public void setHighScore() {
 		this.scoreManager.setHighScore(this.highScore);
+		highScore = Math.max(this.scoreManager.getHighScore(), highScore);
 	}
 	
-	public int getHightScore() {
-		return this.highScore;
+//	public void setHighScore(int currentScore) {
+//		this.scoreManager.setHighScore(currentScore);
+//	}
+	
+	public void setCurrentScore(int score) {
+		this.currentScore = score;
+		this.highScore = Math.max(this.currentScore,  this.highScore);
+		this.textToDisplay.setText(String.format("Score: %d\nHighScore: %d", currentScore, highScore));
+	}
+	
+	public int getHighScore() {
+		return scoreManager.getHighScore();
 	}
 	
 	@Override

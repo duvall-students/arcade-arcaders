@@ -36,16 +36,18 @@ public abstract class GameState {
 		this.gameTargets = new ArrayList<Target>();
 		this.gameProjectiles = new ArrayList<Projectile>();
 		this.gamePowerUps = new ArrayList<PowerUp>();
-		 
-
-		this.score = new ScoreCard(screenWidth, screenHeight);
-		root.getChildren().add(score.getNode());
 		this.livesLeft = new LifeCounter(screenWidth, screenHeight, 3);
 		root.getChildren().add(this.livesLeft.getNode());
-		
 		this.gameLost = false;
 	}
 	
+
+	public void setUpScoreCard(String pathToScoreFile) {
+		this.score = new ScoreCard(screenWidth, screenHeight, pathToScoreFile);
+		root.getChildren().add(score.getNode());
+	}
+	
+
 	//Called every frame and calls makeGameStep function which is overridden by children classes
 	public void step(double elapsedTime) {
 		makeGameStep(elapsedTime);
@@ -54,6 +56,7 @@ public abstract class GameState {
 	//Increments score by 100 every time a target is destroyed
 	public void incrementScore() {
 		this.score.incrementScore();
+		this.score.setHighScore();
 	}
 	
 	//Removes target from game scene
@@ -83,6 +86,7 @@ public abstract class GameState {
 	//similar to step method and is called by step but is overridden by children classes
 	public void makeGameStep(double elapsedTime) {
 		currentStep += 1;
+		checkForGameLost();
 	}
 	
 	//PlayerMover movement function that is called on proper input
@@ -119,6 +123,40 @@ public abstract class GameState {
 				currentTarget.handleIntersects(currentProjectile);
 			}
 		}
+	}
+	
+	public void checkForGameLost() {
+		if (livesLeft.getLivesLeft() == 0) {
+			removeAllTargetsFromRoot();
+			root.getChildren()
+					.add(new GameOverMessage(screenWidth, screenHeight, score.getCurrentScore(), score.getHighScore(), false)
+							.getNode());
+		}
+	}
+	
+	public void removeAllTargetsFromRoot() {
+		for (Target t: gameTargets) {
+			root.getChildren().remove(t.getNode());
+		}
+	}
+	
+	public int getCurrentScore() {
+		return this.score.getCurrentScore();
+	}
+	
+	public void setScore(int score) {
+		this.score.setCurrentScore(score);
+	}
+
+	public void setHighScore() {
+		this.score.setHighScore();
+	}
+	
+	public void gameOver(boolean gameWon) {
+		removeAllTargetsFromRoot();
+		root.getChildren()
+				.add(new GameOverMessage(screenWidth, screenHeight, score.getCurrentScore(), score.getHighScore(), true)
+						.getNode());
 	}
 	
 }

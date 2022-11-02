@@ -8,12 +8,12 @@ import java.util.Scanner;
 
 public class ScoreManager {
 	
-	private final static String pathToScoreFile = "resources/score.txt";
 	private int highScore;
+	private String pathToHighScore;
 	
-	public ScoreManager() {
+	public ScoreManager(String pathToHighScore) {
         try {
-            FileReader reader = new FileReader(pathToScoreFile);
+            FileReader reader = new FileReader(pathToHighScore);
             BufferedReader bufferedReader = new BufferedReader(reader);
             this.highScore = Integer.valueOf(bufferedReader.readLine());
             reader.close();
@@ -28,8 +28,9 @@ public class ScoreManager {
 	
 	public void setHighScore(int newHighScore) {
         try {
+        	System.out.println(String.format("SETTING HIGHSCORE %d", newHighScore));
         	this.highScore = Math.max(newHighScore, highScore);
-            FileWriter writer = new FileWriter(pathToScoreFile, false);
+            FileWriter writer = new FileWriter(pathToHighScore, false);
             writer.write(String.valueOf(this.highScore));
             writer.close();
         } catch (Exception e) {
