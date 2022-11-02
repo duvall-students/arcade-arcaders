@@ -1,5 +1,6 @@
 package gameElements;
 import java.io.FileInputStream;
+import java.lang.Double;
 import java.io.FileNotFoundException;
 
 import gamestates.GameState;
@@ -11,9 +12,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
-public abstract class Target extends GameElement{
+public abstract class Target extends GameElement implements Comparable<Target>{
 
-	private ImageView targetView;
+	protected ImageView targetView;
 	protected GameState parentGameState;
 	
 	//Constructor
@@ -40,7 +41,14 @@ public abstract class Target extends GameElement{
 		return targetView.getBoundsInParent();
 	}
 	
-	public abstract String getType();
+	@Override
+	  public int compareTo(Target t){
+	     int compareX = Double.compare(this.targetView.getX(), t.targetView.getX());
+	     return compareX == 0 ? Double.compare(this.targetView.getY(), t.targetView.getY()) : compareX;
+	  }
+	
+	
+	public abstract void handleIntersects(Projectile p);
  
 }
  

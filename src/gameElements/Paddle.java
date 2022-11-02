@@ -15,15 +15,12 @@ public class Paddle extends PlayerMover{
 	private int paddleWidth = 80;
 	private final Paint paddleColor = Color.BLUE;
 	private int paddleSpeed = 12;
-	private int paddleXPosition = 0;
-	private int paddleYPosition = 0;
 	private int paddleSizeIncrement = 20;
 //	private Rectangle userPaddle;
 	
-	
 	public Paddle(int screenWidth, int screenHeight) {
 		super(screenWidth, screenHeight);
-		this.userPlayerMover = new Rectangle(paddleXPosition, paddleYPosition, paddleWidth, paddleHeight);
+		this.userPlayerMover = new Rectangle(moverXPosition, moverYPosition, paddleWidth, paddleHeight);
 		this.userPlayerMover.setFill(paddleColor);
 	}
 	  
