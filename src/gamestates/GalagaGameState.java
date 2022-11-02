@@ -79,6 +79,7 @@ public class GalagaGameState extends GameState{
 		super.makeGameStep(elapsedTime);
 		invadeWithAllALiens();
 		handleProjectileMovement(elapsedTime);
+		handleAllIntersects();
 	}
 
 }
