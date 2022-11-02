@@ -103,7 +103,8 @@ public abstract class GameState {
 	}
 	
 	public void handleAllIntersects() {
-		for(Projectile currentProjectile: gameProjectiles) {
+		for(int x = 0; x < gameProjectiles.size(); x++) {
+			Projectile currentProjectile = gameProjectiles.get(x);
 			for(int i = 0; i < gameTargets.size(); i ++) {
 				Target currentTarget = gameTargets.get(i);
 				currentTarget.handleIntersects(currentProjectile);
