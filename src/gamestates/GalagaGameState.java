@@ -57,7 +57,7 @@ public class GalagaGameState extends GameState{
 	
 	@Override
 	public void spawnGameProjectiles() {
-		Bullet createdBullet = new Bullet(playerMover.getX(),playerMover.getY());
+		Bullet createdBullet = new Bullet((int)playerMover.getBounds().getCenterX(),(int)playerMover.getBounds().getMinY());
 		gameProjectiles.add(createdBullet);
 		root.getChildren().add(createdBullet.getNode());
 	}
