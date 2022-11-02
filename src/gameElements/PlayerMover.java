@@ -10,8 +10,8 @@ public class PlayerMover extends GameElement{
 
 	//some of these may need to be moved to subclasses 
 	protected Rectangle userPlayerMover;
-	private int moverXPosition = 0;
-	private int moverYPositon = 0;
+	protected int moverXPosition = 0;
+	protected int moverYPosition = 0;
 	private int moverSpeed = 12;
 	//screenWidth required it to be initialized since screenWidth is a final variable 
 	protected int screenWidth=0;
@@ -19,12 +19,17 @@ public class PlayerMover extends GameElement{
 	//screenHeight never used as of now so commented out
 	//private final int screenHeight;
 	private final int moverHeight = 10;
-	private int moverWidth = 80;
+	protected int moverWidth = 80;
 	
 	
 	
 	//potentially could use a constructor?
- 
+	public PlayerMover(int screenWidth, int screenHeight) {
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
+		this.moverXPosition = screenWidth/2;
+		this.moverYPosition = screenHeight - screenHeight/10;
+	}
 	
 	public void moveLeft() {
 		userPlayerMover.setX(Math.max(this.userPlayerMover.getX() - moverSpeed, 0));
@@ -52,7 +57,7 @@ public class PlayerMover extends GameElement{
 	}
 	
 	public int getY() {
-		return moverYPositon;	
+		return moverYPosition;	
 	}
 	
 	public int getPaddleWidth() {

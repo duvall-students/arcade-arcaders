@@ -18,6 +18,7 @@ public class GalagaGameState extends GameState{
 		super(screenWidth, screenHeight);
 		this.numOfAlienRows = numOfAlienRows;
 		this.spawnGameTargets();
+		this.spawnPlayerMover();
 	}
 
 	//The rest of the class is fairly empty and will be soon implemented once we have arcade structure properly set up
@@ -56,19 +57,28 @@ public class GalagaGameState extends GameState{
 	
 	@Override
 	public void spawnGameProjectiles() {
-		
+		Bullet createdBullet = new Bullet(playerMover.getX(),playerMover.getY());
+		gameProjectiles.add(createdBullet);
+		root.getChildren().add(createdBullet.getNode());
 	}
 	
 	@Override
 	public void spawnPlayerMover() {
-		
+		playerMover = new Spaceship(screenWidth, screenHeight);
+		root.getChildren().add(playerMover.getNode());
+	}
+	
+	public void handleProjectileMovement(double elapsedTime) {
+		for (int i = 0; i < gameProjectiles.size(); i++) {
+			gameProjectiles.get(i).move(elapsedTime);
+		}
 	}
 	
 	//Make step method that is called every frame
 	public void makeGameStep(double elapsedTime) {
 		super.makeGameStep(elapsedTime);
 		invadeWithAllALiens();
-		
+		handleProjectileMovement(elapsedTime);
 	}
 
 }

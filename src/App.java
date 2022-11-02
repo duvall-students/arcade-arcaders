@@ -75,7 +75,10 @@ public class App extends Application{
         else if (code == KeyCode.LEFT) {
             game.moveLeft();
         }
-        else if (code == KeyCode.SPACE){
+        else if (code == KeyCode.SPACE) {
+        	game.spawnGameProjectiles();
+        }
+        else if (code == KeyCode.DOWN){
         	this.nextLevel();
         }
     }
