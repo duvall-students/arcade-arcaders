@@ -12,6 +12,7 @@ public class GalagaGameState extends GameState{
 	protected final int numOfAlienRows;
 	private final int AlienOffset = 10;
 	private boolean moveToLeft = true;
+	protected String pathToScoreFile = "resources/gal_high_score";
 	//private List<Alien> aliens;
 
 	public GalagaGameState(int screenWidth, int screenHeight, int numOfAlienRows) {
@@ -19,6 +20,7 @@ public class GalagaGameState extends GameState{
 		this.numOfAlienRows = numOfAlienRows;
 		this.spawnGameTargets();
 		this.spawnPlayerMover();
+		this.setUpScoreCard(pathToScoreFile);
 	}
 
 	//The rest of the class is fairly empty and will be soon implemented once we have arcade structure properly set up
@@ -74,14 +76,25 @@ public class GalagaGameState extends GameState{
 		}
 	}
 	
+	public void removeAllTargetsFromRoot() {
+		for (Target t: gameTargets) {
+			root.getChildren().remove(t.getNode());
+		}
+	}
+	
 	public void checkForTooLowAliens() {
 		double lowest = 0;
 		for (Target t: gameTargets) {
 			lowest = Math.max(lowest, t.getBounds().getMaxY());
 		}
 		if(lowest > this.playerMover.getBounds().getMinY()) {
-			this.gameTargets = new ArrayList<Target>();
-			this.spawnGameTargets();
+			//setHighScore(livesLeft.setHighScore)
+			this.removeAllTargetsFromRoot();
+			if (livesLeft.getLivesLeft() > 0) {
+				livesLeft.changeLives(-1);
+				this.gameTargets = new ArrayList<Target>();
+				this.spawnGameTargets();
+			}
 		}
 	}
 	

@@ -35,14 +35,14 @@ public abstract class GameState {
 		this.gameTargets = new ArrayList<Target>();
 		this.gameProjectiles = new ArrayList<Projectile>();
 		this.gamePowerUps = new ArrayList<PowerUp>();
-		 
-
-		this.score = new ScoreCard(screenWidth, screenHeight);
-		root.getChildren().add(score.getNode());
 		this.livesLeft = new LifeCounter(screenWidth, screenHeight, 3);
 		root.getChildren().add(this.livesLeft.getNode());
-		
 		this.gameLost = false;
+	}
+	
+	public void setUpScoreCard(String pathToScoreFile) {
+		this.score = new ScoreCard(screenWidth, screenHeight, pathToScoreFile);
+		root.getChildren().add(score.getNode());
 	}
 	
 	//Changing to be more general for gamestates
@@ -52,6 +52,7 @@ public abstract class GameState {
 	
 	public void incrementScore() {
 		this.score.incrementScore();
+		this.score.setHighScore();
 	}
 	
 	public void removeTarget(Target t) {
@@ -77,6 +78,7 @@ public abstract class GameState {
 	//Empty method that is inherited and overridden by children classes for creating game items
 	public void makeGameStep(double elapsedTime) {
 		currentStep += 1;
+		checkForGameLost();
 	}
 	
 	//THESE TWO MOVEMENT FUNCTIONS WILL BE CHANGED TO BE GENERAL FOR THE MOVER CLASS
@@ -110,6 +112,40 @@ public abstract class GameState {
 				currentTarget.handleIntersects(currentProjectile);
 			}
 		}
+	}
+	
+	public void checkForGameLost() {
+		if (livesLeft.getLivesLeft() == 0) {
+			removeAllTargetsFromRoot();
+			root.getChildren()
+					.add(new GameOverMessage(screenWidth, screenHeight, score.getCurrentScore(), score.getHighScore(), false)
+							.getNode());
+		}
+	}
+	
+	public void removeAllTargetsFromRoot() {
+		for (Target t: gameTargets) {
+			root.getChildren().remove(t.getNode());
+		}
+	}
+	
+	public int getCurrentScore() {
+		return this.score.getCurrentScore();
+	}
+	
+	public void setScore(int score) {
+		this.score.setCurrentScore(score);
+	}
+
+	public void setHighScore() {
+		this.score.setHighScore();
+	}
+	
+	public void gameOver(boolean gameWon) {
+		removeAllTargetsFromRoot();
+		root.getChildren()
+				.add(new GameOverMessage(screenWidth, screenHeight, score.getCurrentScore(), score.getHighScore(), true)
+						.getNode());
 	}
 	
 }

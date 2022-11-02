@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import backendStuff.ScoreManager;
 import gameElements.LifeCounter;
 import gameElements.PowerUp;
 import gameElements.Projectile;
@@ -69,8 +70,10 @@ public class App extends Application{
     		game.step(elapsedTime);
     	}
     	if (gameSelection != "No Game Selected" && game.isWon()) {
-    		System.out.println("LEVEL WON");
+    		game.setHighScore();
+    		int currentScore = game.getCurrentScore();
     		this.nextLevel();
+    		game.setScore(currentScore);
     	}
     }
 
@@ -113,13 +116,15 @@ public class App extends Application{
     	if (currentLevel < mapGameSelectedToLevels.get(gameSelection).length - 1) {
     		game = mapGameSelectedToLevels.get(gameSelection)[++ currentLevel];
     		gameScene.setRoot(game.getRoot());
+    	} else if (currentLevel == mapGameSelectedToLevels.get(gameSelection).length - 1) {
+    		game.gameOver(true);
     	}
     }
     
     public Group startScreen(int width, int height) {
 		Group root = new Group();
 		Text textToDisplay = new Text(width / 4, height / 2,
-				"Welcome!\nPress \"B\" to play Brick Breakers\nPress\"G\" to playe Galaga");
+				"Welcome!\nPress \"B\" to play Brick Breakers\nPress\"G\" to play Galaga");
 		root.getChildren().add(textToDisplay);
 		return root;
     }
