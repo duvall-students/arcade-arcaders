@@ -11,6 +11,7 @@ public class Alien extends Target{
 	private final double downwardVelocity = 0.05;
 	private final double sidewardsVelocity = 0.07;
 
+
 		//Constructor
 	public Alien(int xCoordinate, int yCoordinate, GameState gs) {
 		super(xCoordinate, yCoordinate, alienPath, alienWidth, alienHeight, gs);

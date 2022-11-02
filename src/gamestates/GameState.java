@@ -9,8 +9,8 @@ import java.util.Random;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
-//Edited by Ethan Jeffries from GameState class in BrickBreakers
-//Changed functionality to be a super class which will have children classes for each arcade game
+//Created by Ethan Jeffries
+//This is an abstract super class that provides a base structure for the children classes which will perform the specific game functions
 public abstract class GameState {
 	
 	public List<GameElement> gameElements;
@@ -28,6 +28,7 @@ public abstract class GameState {
 	protected ScoreCard score;
 	protected boolean gameLost;
 	
+	//Constructor
 	public GameState(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
@@ -40,56 +41,65 @@ public abstract class GameState {
 		this.gameLost = false;
 	}
 	
+
 	public void setUpScoreCard(String pathToScoreFile) {
 		this.score = new ScoreCard(screenWidth, screenHeight, pathToScoreFile);
 		root.getChildren().add(score.getNode());
 	}
 	
-	//Changing to be more general for gamestates
+
+	//Called every frame and calls makeGameStep function which is overridden by children classes
 	public void step(double elapsedTime) {
 		makeGameStep(elapsedTime);
 	}
 	
+	//Increments score by 100 every time a target is destroyed
 	public void incrementScore() {
 		this.score.incrementScore();
 		this.score.setHighScore();
 	}
 	
+	//Removes target from game scene
 	public void removeTarget(Target t) {
 		this.score.incrementScore();
 		this.root.getChildren().remove(t.getNode());
 		gameTargets.remove(t);
 	}
 	
+	//Removes projectile from game scene
 	public void removeProjectile(Projectile p) {
 		this.root.getChildren().remove(p.getNode());
 		gameProjectiles.remove(p);
 	}
 	
-	//Empty method that is inherited and overridden by children classes for creating game items
+	//Empty method that is inherited and overridden by children classes for creating game targets
 	public abstract void spawnGameTargets();
 	
-	//Empty method that is inherited and overridden by children classes for creating game items
-	public abstract void spawnGameProjectiles();
+	//Empty method that is inherited and overridden by children classes for creating game projectiles
+	public void spawnGameProjectiles() {
+		
+	}
 	
-	//Empty method that is inherited and overridden by children classes for creating game items
+	//Empty method that is inherited and overridden by children classes for creating player mover
 	public abstract void spawnPlayerMover();
 	
-	//Empty method that is inherited and overridden by children classes for creating game items
+	//similar to step method and is called by step but is overridden by children classes
 	public void makeGameStep(double elapsedTime) {
 		currentStep += 1;
 		checkForGameLost();
 	}
 	
-	//THESE TWO MOVEMENT FUNCTIONS WILL BE CHANGED TO BE GENERAL FOR THE MOVER CLASS
+	//PlayerMover movement function that is called on proper input
 	public void moveLeft() {
 		this.playerMover.moveLeft();
 	}
 	
+	//PlayerMover movement function that is called on proper input
 	public void moveRight() {
 		this.playerMover.moveRight();
 	}
 	
+	//Gets current gamestate root group (used for adding and removing game elements)
 	public Group getRoot() {
 		return this.root;
 	}
@@ -104,6 +114,7 @@ public abstract class GameState {
 		return this.gameTargets.size() == 0;
 	}
 	
+	//Method that handles intersects between all projectiles and targets and makes method call to target method if there is intersect
 	public void handleAllIntersects() {
 		for(int x = 0; x < gameProjectiles.size(); x++) {
 			Projectile currentProjectile = gameProjectiles.get(x);

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import gameElements.*;
-//Created by Ethan Jeffries
+//Created by Ethan Jeffries 
 //This class is a child class of GameState and will handle anything that is specific to the Galaga game
 
 public class GalagaGameState extends GameState{
@@ -23,8 +23,7 @@ public class GalagaGameState extends GameState{
 		this.setUpScoreCard(pathToScoreFile);
 	}
 
-	//The rest of the class is fairly empty and will be soon implemented once we have arcade structure properly set up
-	//Method that spawns in game items which will override the parent method
+	//Method that spawns in game targets which will override the parent method
 	@Override
 	public void spawnGameTargets() {
 		for (int j = 0; j < numOfAlienRows; j ++) {
@@ -36,6 +35,7 @@ public class GalagaGameState extends GameState{
 		}
 	}
 	
+	//Checks the direction that the aliens will move in this frame
 	public void checkAlienDirection() {
 		Target lowestTarget = Collections.min(gameTargets);
 		Target highestTarget = Collections.max(gameTargets);
@@ -46,6 +46,7 @@ public class GalagaGameState extends GameState{
 		}
 	}
 	
+	//Moves the aliens downwards by calling alien invade functions
 	public void invadeWithAllALiens() {
 		checkAlienDirection();
 		for (Target a: gameTargets) {
@@ -57,6 +58,7 @@ public class GalagaGameState extends GameState{
 		}
 	}
 	
+	//Overridden method that spawns projectiles when desired
 	@Override
 	public void spawnGameProjectiles() {
 		Bullet createdBullet = new Bullet((int)playerMover.getBounds().getCenterX(),(int)playerMover.getBounds().getMinY());
@@ -64,24 +66,28 @@ public class GalagaGameState extends GameState{
 		root.getChildren().add(createdBullet.getNode());
 	}
 	
+	//Overridden method that creates the playermover at in the constructor
 	@Override
 	public void spawnPlayerMover() {
 		playerMover = new Spaceship(screenWidth, screenHeight);
 		root.getChildren().add(playerMover.getNode());
 	}
 	
+	//Handles all projectile movement for a specific frame
 	public void handleProjectileMovement(double elapsedTime) {
 		for (int i = 0; i < gameProjectiles.size(); i++) {
 			gameProjectiles.get(i).move(elapsedTime);
 		}
 	}
 	
+
 	public void removeAllTargetsFromRoot() {
 		for (Target t: gameTargets) {
 			root.getChildren().remove(t.getNode());
 		}
 	}
 	
+	//Checks if the aliens have gone below the playermover and if so spawns them again at the top and removes a life
 	public void checkForTooLowAliens() {
 		double lowest = 0;
 		for (Target t: gameTargets) {
@@ -95,6 +101,7 @@ public class GalagaGameState extends GameState{
 				this.gameTargets = new ArrayList<Target>();
 				this.spawnGameTargets();
 			}
+
 		}
 	}
 	
