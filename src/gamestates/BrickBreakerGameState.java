@@ -95,7 +95,6 @@ public abstract class BrickBreakerGameState extends GameState{
 				PowerUp currentPowerUp = gamePowerUps.get(i);
 				boolean intersects = currentBall.getBounds().intersects(currentPowerUp.getBounds());
 				if(intersects) {
-					System.out.println("HIT POWERUP");
 					root.getChildren().remove(currentPowerUp.getNode());
 					currentPowerUp.activatePowerUp();
 					gamePowerUps.remove(currentPowerUp);
@@ -122,7 +121,6 @@ public abstract class BrickBreakerGameState extends GameState{
 		if (gameProjectiles.size() == 0 && livesLeft.getLivesLeft() > 0) {
 			livesLeft.changeLives(-1);
 			if (livesLeft.getLivesLeft() > 0) {
-				System.out.println(String.format("You have %d lives left, good luck.", livesLeft.getLivesLeft()));
 				addBall();
 			}
 		} else if (gameProjectiles.size() == 0) {
